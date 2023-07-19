@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
+from unfilteredForm import SchoolForm
 import git
 import logging
 
@@ -41,6 +42,9 @@ with app.app_context():
 # Route for home page
 @app.route("/", methods=['POST'])
 def renderHome():
+    form = SchoolForm()
+    if form.validate_on_submit():
+        return render_template('home.html', data="It worked!")
     return render_template('home.html')
 
 
