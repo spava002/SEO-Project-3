@@ -1,7 +1,7 @@
 '''
 This form should collect user data on preference of school
 Data should be: 
-    residency (In-State or Out-of-Stae) --> String type
+    residency (In-State or Out-of-State) --> String type
     school_type (Public or Private) --> String type
     program (Name of desired program if any) --> String type
     degree (Name of desired degree) --> String type
@@ -9,15 +9,8 @@ Data should be:
     room_preference (Desired room pricing if specified) --> int type
 '''
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Optional, Length, AnyOf
-
-
-# Modified AnyOf() method to be case in-sensitive
-class CaseInsensitiveAnyOf(AnyOf):
-    def __call__(self, form, field):
-        field.data = field.data.lower()
-        super().__call__(form, field)
+from wtforms import StringField, SelectField, SubmitField
+from wtforms.validators import DataRequired, Optional, Length
 
 
 class SchoolForm(FlaskForm):

@@ -40,23 +40,24 @@ with app.app_context():
 #         return 'Wrong event type', 400
 
 # Route for home page
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['POST', 'GET'])
 def renderHome():
     form = SchoolForm()
     if form.validate_on_submit():
-        return render_template('home.html', data="It worked!")
-    return render_template('home.html')
+        return redirect(url_for('renderSearchResults', data="It worked!"))
+    return render_template('home.html', filteredForm=form)
 
 
 # Route for search results 
 @app.route("/search-results", methods=['GET'])
-def renderHome():
-    return render_template('searchResults.html')
+def renderSearchResults():
+    data = request.args.get('data')
+    return render_template('searchResults.html', data=data)
 
 
 # Route for chosen college
-@app.route("/", methods=['GET'])
-def renderHome():
+@app.route("/college", methods=['GET'])
+def renderChoseCollege():
     return render_template('college.html')
 
 
@@ -64,4 +65,8 @@ def renderHome():
 @app.route("/db")
 def renderDb():
     all_school_data = Schools.query.all()
-    return render_template('database.html', all_school_data=all_school_data)
+    return render_template('db.html', all_school_data=all_school_data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0")

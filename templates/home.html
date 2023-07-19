@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <!-- Form for collecting user inputs on the filtered search -->
+    <form method="POST" action="/">
+        {{ filteredForm.hidden_tag() }}
+        <fieldset class="form-group">
+        <div class="form-group">
+            <!-- Receives the required input of 'degree' -->
+            {{ filteredForm.degree.label(class="form-control-label") }}
+            {% if filteredForm.degree.errors %}
+            {{ filteredForm.degree(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in filteredForm.degree.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ filteredForm.degree(class="form-control form-control-lg") }}
+            {% endif %}
+            
+            <!-- Receives the required input of 'residency' -->
+            {{ filteredForm.residency.label(class="form-control-label") }}
+            {% if filteredForm.residency.errors %}
+            {{ filteredForm.residency(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in filteredForm.residency.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ filteredForm.residency(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the optional input of 'school_type' -->
+            {{ filteredForm.school_type.label(class="form-control-label") }}
+            {% if filteredForm.school_type.errors %}
+            {{ filteredForm.school_type(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in filteredForm.school_type.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ filteredForm.school_type(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the optional input of 'tuition_preference' -->
+            {{ filteredForm.tuition_preference.label(class="form-control-label") }}
+            {% if filteredForm.tuition_preference.errors %}
+            {{ filteredForm.tuition_preference(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in filteredForm.tuition_preference.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ filteredForm.tuition_preference(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the optional input of 'room_preference' -->
+            {{ filteredForm.room_preference.label(class="form-control-label") }}
+            {% if filteredForm.room_preference.errors %}
+            {{ filteredForm.room_preference(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in filteredForm.room_preference.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ filteredForm.room_preference(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        </fieldset>
+        <div class="form-group">
+        {{ filteredForm.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</body>
