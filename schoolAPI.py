@@ -9,11 +9,21 @@ params = {
 
 response = requests.get(url, params=params).json()
 
-# Prints all the general school info
-print(response["results"][0]["school"])
+# # Prints all the general school info
+# print(response["results"][0]["latest"]["school"]["name"])
 
-# Prints all the cost info pertaining to that school
-print(response["results"][0]["latest"]["cost"])
+# # Prints all the cost info pertaining to that school
+# print(response["results"][0]["latest"]["cost"])
 
-# Prints all the financial aid info pertaining to that school
-print(response["results"][0]["latest"]["aid"])
+# # Prints all the financial aid info pertaining to that school
+# print(response["results"][0]["latest"]["aid"])
+
+# Prints all the program titles with their corresponding degree types
+response = response["results"][0]["latest"]["programs"]["cip_4_digit"]
+
+i = 0
+while i < len(response):
+    print()
+    print(f"Program: {response[i]['title']}")
+    print(f"Degree: {response[i]['credential']['title']}")
+    i += 1
