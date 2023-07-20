@@ -13,13 +13,14 @@ db = SQLAlchemy(app)
 
 
 class Schools(db.Model):
+    # id, degree, and residency will always contain a value
     id = db.Column(db.Integer, primary_key=True)
-    residency = db.Column(db.String(50), nullable=False)
-    school_type = db.Column(db.String(50), nullable=False)
-    program = db.Column(db.String(50), nullable=False)
     degree = db.Column(db.String(50), nullable=False)
-    tuition_preference = db.Column(db.String(50), nullable=False)
-    room_preference = db.Column(db.String(50), nullable=False)
+    residency = db.Column(db.String(50), nullable=False)
+    # school_type, tuition_preference, and room_preference won't always contain a value
+    school_type = db.Column(db.String(50), nullable=False)
+    tuition_preference = db.Column(db.Integer(50), nullable=False)
+    room_preference = db.Column(db.Integer(50), nullable=False)
 
     def __repr__(self):
         return ""
