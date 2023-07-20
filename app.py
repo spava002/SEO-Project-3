@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
-from unfilteredForm import SchoolForm
+from filteredForm import SchoolForm
 from singleSchoolData import main
 import git
 import logging
