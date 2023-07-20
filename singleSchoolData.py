@@ -78,14 +78,17 @@ def getResponse(url):
     response = requests.get(url, params=params).json()
     return response
 
-def main(degree, residency, school_type, tuition_preference, room_preference):
+def main(degree, residency, residency_preference, school_type, tuition_preference, room_preference):
     # Prints out the received form data
+    print()
     print(f"Chosen Degree is {degree}") 
-    print(f"Chosen Residency is {residency}") 
+    print(f"Residency is {residency}") 
+    print(f"Residency Preference is {residency_preference}") 
     print(f"Chosen School Type is {school_type}") 
     # tuition_preference and room_preference are simply the upper limit of what user would like to pay, the lower limit is always $0
-    print(f"Chosen Tuition Preference is $0-${tuition_preference}")
-    print(f"Chosen Room Preference is $0-${room_preference}") 
+    print(f"Tuition Preference is $0-${tuition_preference}")
+    print(f"Room Preference is $0-${room_preference}") 
+    print()
 
     # Specify school...
     schoolName = 'Harvard'

@@ -18,6 +18,7 @@ class Schools(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     degree = db.Column(db.String(50), nullable=False)
     residency = db.Column(db.String(50), nullable=False)
+    residency_preference = db.Column(db.String(50), nullable=False)
     # school_type, tuition_preference, and room_preference won't always contain a value
     school_type = db.Column(db.String(50), nullable=False)
     tuition_preference = db.Column(db.Integer, nullable=False)
@@ -48,11 +49,15 @@ def renderHome():
     if form.validate_on_submit():
         degree = form.degree.data
         residency = form.residency.data
+        residency_preference = form.residency_preference.data
         school_type = form.school_type.data
         tuition_preference = form.tuition_preference.data
         room_preference = form.room_preference.data
-        main(degree, residency, school_type, tuition_preference, room_preference)
+        print("Here")
+        main(degree, residency, residency_preference, school_type, tuition_preference, room_preference)
         return redirect(url_for('renderSearchResults', data="It worked!"))
+    else:
+        print("Theres an issue validating some data.")
     return render_template('home.html', filteredForm=form)
 
 
