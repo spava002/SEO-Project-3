@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from unfilteredForm import SchoolForm
+from singleSchoolData import main
 import git
 import logging
 
@@ -19,8 +20,8 @@ class Schools(db.Model):
     residency = db.Column(db.String(50), nullable=False)
     # school_type, tuition_preference, and room_preference won't always contain a value
     school_type = db.Column(db.String(50), nullable=False)
-    tuition_preference = db.Column(db.Integer(50), nullable=False)
-    room_preference = db.Column(db.Integer(50), nullable=False)
+    tuition_preference = db.Column(db.Integer, nullable=False)
+    room_preference = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return ""
@@ -45,6 +46,12 @@ with app.app_context():
 def renderHome():
     form = SchoolForm()
     if form.validate_on_submit():
+        degree = form.degree.data
+        residency = form.residency.data
+        school_type = form.school_type.data
+        tuition_preference = form.tuition_preference.data
+        room_preference = form.room_preference.data
+        main(degree, residency, school_type, tuition_preference, room_preference)
         return redirect(url_for('renderSearchResults', data="It worked!"))
     return render_template('home.html', filteredForm=form)
 

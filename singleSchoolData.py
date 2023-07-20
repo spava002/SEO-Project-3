@@ -78,7 +78,14 @@ def getResponse(url):
     response = requests.get(url, params=params).json()
     return response
 
-def main():
+def main(degree, residency, school_type, tuition_preference, room_preference):
+    # Prints out the received form data
+    print(f"Chosen Degree is {degree}") 
+    print(f"Chosen Reisidency is {residency}") 
+    print(f"Chosen School Type is {school_type}") 
+    print(f"Chosen Tuition Preference is $0-${tuition_preference}") 
+    print(f"Chosen Room Preference is $0-${room_preference}") 
+
     # Specify school...
     schoolName = 'Harvard'
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + schoolName
@@ -154,4 +161,4 @@ def optional_view_variables(mySchool):
     print()
 
 # Run Program
-main()
+# main()

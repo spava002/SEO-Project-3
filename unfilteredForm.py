@@ -19,7 +19,7 @@ class SchoolForm(FlaskForm):
     residency = SelectField('In-State or Out-Of-State: ', validators=[DataRequired()], choices=[("instate", "In-State"), ("outofstate", "Out-Of-State")], render_kw={"autocomplete": "off"})
     # Optional parameters
     school_type = SelectField('In-State or Out-Of-State: ', validators=[Optional()], choices=[("public", "Public"), ("private", "Private")], render_kw={"autocomplete": "off"})
-    tuition_preference = SelectField('Tuition Preference: ', validators=[Optional()], choices=[("0-10000", "$0-$10,000"), ("0-20000", "$0-$20,000"), ("0-30000", "$0-$30,000"), ("0-40000", "$0-$40,000"), ("0-50000", "$0-$50,000")], render_kw={"autocomplete": "off"})
-    room_preference = SelectField('Room Preference: ', validators=[Optional()], choices=[("0-10000", "$0-$10,000"), ("0-20000", "$0-$20,000"), ("0-30000", "$0-$30,000"), ("0-40000", "$0-$40,000"), ("0-50000", "$0-$50,000")], render_kw={"autocomplete": "off"})
+    tuition_preference = SelectField('Tuition Preference: ', validators=[Optional()], choices=[("10000", "$0-$10,000"), ("20000", "$0-$20,000"), ("30000", "$0-$30,000"), ("40000", "$0-$40,000"), ("50000", "$0-$50,000")], render_kw={"autocomplete": "off"})
+    room_preference = SelectField('Room Preference: ', validators=[Optional()], choices=[("10000", "$0-$10,000"), ("20000", "$0-$20,000"), ("30000", "$0-$30,000"), ("40000", "$0-$40,000"), ("50000", "$0-$50,000")], render_kw={"autocomplete": "off"})
     # Submit data
     submit = SubmitField('Search')
