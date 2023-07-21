@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from filteredForm import SchoolForm
+from unfilteredForm import SchoolNameForm
 from singleSchoolData import main
 import git
 import logging
@@ -45,20 +46,21 @@ with app.app_context():
 # Route for home page
 @app.route("/", methods=['POST', 'GET'])
 def renderHome():
-    form = SchoolForm()
-    if form.validate_on_submit():
-        degree = form.degree.data
-        residency = form.residency.data
-        residency_preference = form.residency_preference.data
-        school_type = form.school_type.data
-        tuition_preference = form.tuition_preference.data
-        room_preference = form.room_preference.data
-        print("Here")
+    filteredForm = SchoolForm()
+    unfilteredForm = SchoolNameForm()
+    if filteredForm.validate_on_submit():
+        degree = filteredForm.degree.data
+        residency = filteredForm.residency.data
+        residency_preference = filteredForm.residency_preference.data
+        school_type = filteredForm.school_type.data
+        tuition_preference = filteredForm.tuition_preference.data
+        room_preference = filteredForm.room_preference.data
         main(degree, residency, residency_preference, school_type, tuition_preference, room_preference)
-        return redirect(url_for('renderSearchResults', data="It worked!"))
-    else:
-        print("Theres an issue validating some data.")
-    return render_template('home.html', filteredForm=form)
+        return redirect(url_for('renderSearchResults', data="The filtered form was submitted!"))
+    elif unfilteredForm.validate_on_submit():
+        return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!"))
+    
+    return render_template('home.html', filteredForm=filteredForm, unfilteredForm=unfilteredForm)
 
 
 # Route for search results 

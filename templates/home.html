@@ -4,6 +4,30 @@
     <link rel = "stylesheet" type = "text/css" href = "../static/css/home.css">
 </head>
 <body>
+    <!-- Form for collecting user input on the school name (unfiltered) search -->
+    <form method="POST" action="/">
+        {{ unfilteredForm.hidden_tag() }}
+        <fieldset class="form-group">
+        <div class="form-group">
+            <!-- Receives the required input of 'degree' -->
+            {{ unfilteredForm.school_name.label(class="form-control-label") }}
+            {% if unfilteredForm.school_name.errors %}
+            {{ unfilteredForm.school_name(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in unfilteredForm.school_name.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ unfilteredForm.school_name(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        </fieldset>
+        <div class="form-group">
+        {{ unfilteredForm.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+
     <!-- Form for collecting user inputs on the filtered search -->
     <form method="POST" action="/">
         {{ filteredForm.hidden_tag() }}
