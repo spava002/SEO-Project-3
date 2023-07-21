@@ -80,8 +80,8 @@ def renderHome():
         # residency_preference = filteredForm.residency_preference.data
         # school_type = filteredForm.school_type.data
         # tuition_preference = filteredForm.tuition_preference.data
-        # room_preference = filteredForm.room_preference.data
-        # main(degree, residency, residency_preference, school_type, tuition_preference, room_preference)
+        # average_cost_of_attendance = filteredForm.average_cost_of_attendance.data
+        # main(degree, residency, residency_preference, school_type, tuition_preference, average_cost_of_attendance)
         return redirect(url_for('renderSearchResults', data="The filtered form was submitted!"))
     elif unfilteredForm.validate_on_submit():
         school_name = unfilteredForm.school_name.data
