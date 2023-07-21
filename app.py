@@ -9,21 +9,44 @@ import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'PS7T6txPuOaXKkNnvToX90e0J'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///schools.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///unfilteredSchool.db'
 
 db = SQLAlchemy(app)
 
 
-class Schools(db.Model):
+class unfilteredSchool(db.Model):
     # id, degree, and residency will always contain a value
     id = db.Column(db.Integer, primary_key=True)
-    degree = db.Column(db.String(50), nullable=False)
-    residency = db.Column(db.String(50), nullable=False)
-    residency_preference = db.Column(db.String(50), nullable=False)
-    # school_type, tuition_preference, and room_preference won't always contain a value
-    school_type = db.Column(db.String(50), nullable=False)
-    tuition_preference = db.Column(db.Integer, nullable=False)
-    room_preference = db.Column(db.Integer, nullable=False)
+    school_name = db.Column(db.String(50), nullable=False)
+    location_info = db.Column(db.String(50), nullable=False)
+    student_size = db.Column(db.Integer, nullable=False)
+    is_undergraduate_only = db.Column(db.String(50), nullable=False)
+    in_state_tuition = db.Column(db.Integer, nullable=False)
+    out_state_tuition = db.Column(db.Integer, nullable=False)
+    roomboard_on_campus = db.Column(db.Integer, nullable=False)
+    roomboard_off_campus = db.Column(db.Integer, nullable=False)
+    book_supply = db.Column(db.Integer, nullable=False)
+    average_overall_net_price = db.Column(db.Integer, nullable=False)
+    acceptance_rate = db.Column(db.Float, nullable=False)
+    avg_SAT_score = db.Column(db.Integer, nullable=False)
+    avg_ACT_score = db.Column(db.Integer, nullable=False)
+    percent_male = db.Column(db.Float, nullable=False)
+    percent_female = db.Column(db.Float, nullable=False)
+    percent_native_american = db.Column(db.Float, nullable=False)
+    percent_native_hawaiian_pacific_islander = db.Column(db.Float, nullable=False)
+    percent_asian = db.Column(db.Float, nullable=False)
+    percent_black = db.Column(db.Float, nullable=False)
+    percent_white = db.Column(db.Float, nullable=False)
+    percent_hispanic = db.Column(db.Float, nullable=False)
+    percent_ethnicity_unknown = db.Column(db.Float, nullable=False)
+    first_degree_offered = db.Column(db.String(100), nullable=False)
+    second_degree_offered = db.Column(db.String(100), nullable=False)
+    third_degree_offered = db.Column(db.String(100), nullable=False)
+    fourth_degree_offered = db.Column(db.String(100), nullable=False)
+    fifth_degree_offered = db.Column(db.String(100), nullable=False)
+    school_website_url = db.Column(db.String(100), nullable=False)
+    price_calculator_website = db.Column(db.String(100), nullable=False)
+
 
     def __repr__(self):
         return ""
@@ -62,8 +85,13 @@ def renderHome():
         return redirect(url_for('renderSearchResults', data="The filtered form was submitted!"))
     elif unfilteredForm.validate_on_submit():
         school_name = unfilteredForm.school_name.data
-        main(school_name)
-        return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!"))
+        singleSchoolData = main(school_name)
+        single_school_data = unfilteredSchool(school_name=school_name, location_info=singleSchoolData["locationInfo"][0], student_size=singleSchoolData["schoolFacts"][0], is_undergraduate_only=singleSchoolData["schoolFacts"][1], in_state_tuition=singleSchoolData["costOfAttendanceInfo"][0], out_state_tuition=singleSchoolData["costOfAttendanceInfo"][1], roomboard_on_campus=singleSchoolData["costOfAttendanceInfo"][2], roomboard_off_campus=singleSchoolData["costOfAttendanceInfo"][3], book_supply=singleSchoolData["costOfAttendanceInfo"][4], average_overall_net_price=singleSchoolData["financialAidInfo"][0], acceptance_rate=singleSchoolData["admissionsInfo"][0], avg_SAT_score=singleSchoolData["admissionsInfo"][1], avg_ACT_score=singleSchoolData["admissionsInfo"][2], percent_male=singleSchoolData["demographicsInfo"][0], percent_female=singleSchoolData["demographicsInfo"][1], percent_native_american=singleSchoolData["demographicsInfo"][2], percent_native_hawaiian_pacific_islander=singleSchoolData["demographicsInfo"][3], percent_asian=singleSchoolData["demographicsInfo"][4], percent_black=singleSchoolData["demographicsInfo"][5], percent_white=singleSchoolData["demographicsInfo"][6], percent_hispanic=singleSchoolData["demographicsInfo"][7], percent_ethnicity_unknown=singleSchoolData["demographicsInfo"][8], first_degree_offered=singleSchoolData["degreesOffered"][0], second_degree_offered=singleSchoolData["degreesOffered"][1], third_degree_offered=singleSchoolData["degreesOffered"][2], fourth_degree_offered=singleSchoolData["degreesOffered"][3], fifth_degree_offered=singleSchoolData["degreesOffered"][4], school_website_url=singleSchoolData["externalLinks"][0], price_calculator_website=singleSchoolData["externalLinks"][1])
+        db.session.add(single_school_data)
+        db.session.commit()
+        logging.info(f"School data was added successfully!")
+        return render_template("searchResults.html", single_school_data=single_school_data)
+        # return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!", single_school_data=single_school_data))
     
     return render_template('home.html', filteredForm=filteredForm, unfilteredForm=unfilteredForm)
 
@@ -84,7 +112,7 @@ def renderChoseCollege():
 # Route for a database page (meant for testing purposes)
 @app.route("/db")
 def renderDb():
-    all_school_data = Schools.query.all()
+    all_school_data = unfilteredSchool.query.all()
     return render_template('db.html', all_school_data=all_school_data)
 
 

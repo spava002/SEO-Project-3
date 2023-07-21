@@ -79,92 +79,119 @@ def getResponse(url):
     return response
 
 def main(school_name):
-    '''
-    This portion is simply meant for testing purposes
-    '''
-    # # Prints out the received form data
-    # print()
-    # print(f"Chosen Degree is {degree}") 
-    # print(f"Residency is {residency}") 
-    # print(f"Residency Preference is {residency_preference}") 
-    # print(f"Chosen School Type is {school_type}") 
-    # # tuition_preference and room_preference are simply the upper limit of what user would like to pay, the lower limit is always $0
-    # print(f"Tuition Preference is $0-${tuition_preference}")
-    # print(f"Room Preference is $0-${room_preference}") 
-    # print()
-
     # Specify school...
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + school_name
     response = getResponse(url)
     mySchool = School(response)
 
     # This function call below can be deleted, it was to debug/view variable outputs.
-    optional_view_variables(mySchool)
+    return optional_view_variables(mySchool)
 
 def optional_view_variables(mySchool):
     '''This helper function prints out all variable values in our School object to help debug/view for correct output'''
-    print('-----> Location Info <-----')
-    print()
+    singleSchoolData = {}
+    # print('-----> Location Info <-----')
+    # print()
 
-    print(f'College City:                               {mySchool.city}')
-    print(f'College State:                              {mySchool.state}')
+    # print(f'College City:                               {mySchool.city}')
+    # print(f'College State:                              {mySchool.state}')
 
-    print()
-    print('-----> School Facts <-----')
-    print()
+    locationInfo = [mySchool.city + " " + mySchool.state]
+    singleSchoolData.update({"locationInfo": locationInfo})
 
-    print(f'Student Size:                               {mySchool.student_size}')
-    print(f'Undergraduate Only?:                        {mySchool.is_undergraduate_only}')
+    # print()
+    # print('-----> School Facts <-----')
+    # print()
 
-    print()
-    print('-----> Cost of Attendance Info <-----')
-    print()
+    # print(f'Student Size:                               {mySchool.student_size}')
+    # print(f'Undergraduate Only?:                        {mySchool.is_undergraduate_only}')
 
-    print(f'In-State Tuition:                           {mySchool.tuition_in_state}')
-    print(f'Out-of-State Tuition:                       {mySchool.tuition_out_of_state}')
-    print(f'Roomboard On-Campus Cost:                   {mySchool.roomboard_on_campus}')
-    print(f'Roomboard Off-Campus Cost:                  {mySchool.roomboard_off_campus}')
-    print(f'Booksupply Cost:                            {mySchool.booksupply}')
-    print()
-    print('-----> Financial Aid Info <-----')
-    print()
+    schoolFacts = [mySchool.student_size, mySchool.is_undergraduate_only]
+    singleSchoolData.update({"schoolFacts": schoolFacts})
 
-    print(f'Average Net Cost (after aid):               {mySchool.average_overall_net_price}')
+    # print()
+    # print('-----> Cost of Attendance Info <-----')
+    # print()
+
+    # print(f'In-State Tuition:                           {mySchool.tuition_in_state}')
+    # print(f'Out-of-State Tuition:                       {mySchool.tuition_out_of_state}')
+    # print(f'Roomboard On-Campus Cost:                   {mySchool.roomboard_on_campus}')
+    # print(f'Roomboard Off-Campus Cost:                  {mySchool.roomboard_off_campus}')
+    # print(f'Booksupply Cost:                            {mySchool.booksupply}')
+
+    # Few cases where they may be 'None', so need to give it a value that is passable onto the database
+    roomboard_on_campus = None
+    roomboard_off_campus = None
+    if mySchool.roomboard_off_campus == None:
+        roomboard_off_campus = 0
+    else:
+        roomboard_off_campus = mySchool.roomboard_off_campus
+    if mySchool.roomboard_on_campus == None:
+        roomboard_on_campus = 0
+    else:
+        roomboard_on_campus = mySchool.roomboard_on_campus
+
+    costOfAttendanceInfo = [mySchool.tuition_in_state, mySchool.tuition_out_of_state, roomboard_on_campus, roomboard_off_campus, mySchool.booksupply]
+    singleSchoolData.update({"costOfAttendanceInfo": costOfAttendanceInfo})
+
+    # print()
+    # print('-----> Financial Aid Info <-----')
+    # print()
+
+    # print(f'Average Net Cost (after aid):               {mySchool.average_overall_net_price}')
+
+    financialAidInfo = [mySchool.average_overall_net_price]
+    singleSchoolData.update({"financialAidInfo": financialAidInfo})
    
-    print()
-    print('-----> Admissions Info <-----')
-    print()
-    print(f'Acceptance Rate:                            {mySchool.acceptance_rate}')
-    print(f'Average SAT Score:                          {mySchool.average_SAT_score}')
-    print(f'Average ACT Score:                          {mySchool.average_ACT_score}')
-    
-    print()
-    print('-----> Demographics <-----')
-    print()
-    
-    print(f'Percent Male:                               {mySchool.percent_male}')
-    print(f'Percent Female:                             {mySchool.percent_female}')
-    print(f'Percent Native American:                    {mySchool.percent_native_american}')
-    print(f'Percent Native Hawaiian/Pacific Islander:   {mySchool.percent_native_hawaiian_pacific_islander}')
-    print(f'Percent Asian:                              {mySchool.percent_asian}')
-    print(f'Percent Black:                              {mySchool.percent_black}')
-    print(f'Percent White:                              {mySchool.percent_white}')
-    print(f'Percent Hispanic:                           {mySchool.percent_hispanic}')
-    print(f'Percent Ethnicity Unknown:                  {mySchool.percent_ethnicity_unknown}')
-    
-    print()
-    print('-----> Degrees Offered <-----')
-    print()
+    # print()
+    # print('-----> Admissions Info <-----')
+    # print()
+    # print(f'Acceptance Rate:                            {mySchool.acceptance_rate}')
+    # print(f'Average SAT Score:                          {mySchool.average_SAT_score}')
+    # print(f'Average ACT Score:                          {mySchool.average_ACT_score}')
 
-    print(f'Programs and Corresponding Degrees Offered:\n {mySchool.program_to_degree}') # NOTE: Returns a dictionary!
+    admissionsInfo = [mySchool.acceptance_rate, mySchool.average_SAT_score, mySchool.average_ACT_score]
+    singleSchoolData.update({"admissionsInfo": admissionsInfo})
     
-    print()
-    print('-----> External Links <-----')
-    print()
+    # print()
+    # print('-----> Demographics <-----')
+    # print()
+    
+    # print(f'Percent Male:                               {mySchool.percent_male}')
+    # print(f'Percent Female:                             {mySchool.percent_female}')
+    # print(f'Percent Native American:                    {mySchool.percent_native_american}')
+    # print(f'Percent Native Hawaiian/Pacific Islander:   {mySchool.percent_native_hawaiian_pacific_islander}')
+    # print(f'Percent Asian:                              {mySchool.percent_asian}')
+    # print(f'Percent Black:                              {mySchool.percent_black}')
+    # print(f'Percent White:                              {mySchool.percent_white}')
+    # print(f'Percent Hispanic:                           {mySchool.percent_hispanic}')
+    # print(f'Percent Ethnicity Unknown:                  {mySchool.percent_ethnicity_unknown}')
+
+    demographicsInfo = [mySchool.percent_male, mySchool.percent_female, mySchool.percent_native_american, mySchool.percent_native_hawaiian_pacific_islander, mySchool.percent_asian, mySchool.percent_black, mySchool.percent_white, mySchool.percent_hispanic, mySchool.percent_ethnicity_unknown]
+    singleSchoolData.update({"demographicsInfo": demographicsInfo})
+    
+    # print()
+    # print('-----> Degrees Offered <-----')
+    # print()
+
+    # print(f'Programs and Corresponding Degrees Offered:\n {mySchool.program_to_degree}') # NOTE: Returns a dictionary!
+
+    # Replacement code for programs/degrees until more compressed solution is offered
+    degreesOffered = ["Program 1, Degree 1", "Program 2, Degree 2", "Program 3, Degree 3", "Program 4, Degree 4", "Program 5, Degree 5"]
+    singleSchoolData.update({"degreesOffered":degreesOffered})
+    
+    # print()
+    # print('-----> External Links <-----')
+    # print()
   
-    print(f'School Website URL:                         {mySchool.school_website_url}')
-    print(f'Price Calculator Website:                   {mySchool.price_calculator_website_url}')
-    print()
+    # print(f'School Website URL:                         {mySchool.school_website_url}')
+    # print(f'Price Calculator Website:                   {mySchool.price_calculator_website_url}')
+    # print()
+
+    externalLinks = [mySchool.school_website_url, mySchool.price_calculator_website_url]
+    singleSchoolData.update({"externalLinks": externalLinks})
+
+    return singleSchoolData
 
 # Run Program
 # main()
