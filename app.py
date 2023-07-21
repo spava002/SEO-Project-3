@@ -49,15 +49,20 @@ def renderHome():
     filteredForm = SchoolForm()
     unfilteredForm = SchoolNameForm()
     if filteredForm.validate_on_submit():
-        degree = filteredForm.degree.data
-        residency = filteredForm.residency.data
-        residency_preference = filteredForm.residency_preference.data
-        school_type = filteredForm.school_type.data
-        tuition_preference = filteredForm.tuition_preference.data
-        room_preference = filteredForm.room_preference.data
-        main(degree, residency, residency_preference, school_type, tuition_preference, room_preference)
+        '''
+        This portion was meant for testing purposes
+        '''
+        # degree = filteredForm.degree.data
+        # residency = filteredForm.residency.data
+        # residency_preference = filteredForm.residency_preference.data
+        # school_type = filteredForm.school_type.data
+        # tuition_preference = filteredForm.tuition_preference.data
+        # room_preference = filteredForm.room_preference.data
+        # main(degree, residency, residency_preference, school_type, tuition_preference, room_preference)
         return redirect(url_for('renderSearchResults', data="The filtered form was submitted!"))
     elif unfilteredForm.validate_on_submit():
+        school_name = unfilteredForm.school_name.data
+        main(school_name)
         return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!"))
     
     return render_template('home.html', filteredForm=filteredForm, unfilteredForm=unfilteredForm)
