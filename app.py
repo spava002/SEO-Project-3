@@ -116,5 +116,18 @@ def renderDb():
     return render_template('db.html', all_school_data=all_school_data)
 
 
+@app.route('/delete-school/<int:id>')
+def delete_song(id):
+    school = unfilteredSchool.query.get_or_404(id)
+
+    try:
+        db.session.delete(school)
+        db.session.commit()
+        return redirect(url_for('renderDb'))
+    except Exception as e:
+        logging.error(f"There was an error deleting that: {e}")
+        return "There was an error deleting that!"
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
