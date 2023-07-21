@@ -52,18 +52,19 @@ class School:
         self.percent_ethnicity_unknown = response['results'][0]['latest']['student']['demographics']['race_ethnicity']['unknown']
 
         # Degrees Offered
-        self.areas_of_study = []
-        self.degree_type = []
-        for program in response['results'][0]['latest']['programs']['cip_4_digit']:
-            self.areas_of_study.append(program['title'])
-            self.degree_type.append(program['credential']['title'])
+        # self.areas_of_study = []
+        # self.degree_type = []
+        # for program in response['results'][0]['latest']['programs']['cip_4_digit']:
+        #     self.areas_of_study.append(program['title'])
+        #     self.degree_type.append(program['credential']['title'])
+        self.most_popular_majors = fetch_most_popular_majors(response)
     
         # Make dictionary where self.areas_of_study[i] : self.degree_type[i] --> aka, dictonary has the format --> Program Name (like Chemistry) : Degree Type (bachlor's, masters, etc.)
-        self.program_to_degree = {}
-        for i in range(len(self.areas_of_study)):
-            programTitle = self.areas_of_study[i]
-            degreeType = self.degree_type[i]
-            self.program_to_degree[programTitle] = degreeType
+        # self.program_to_degree = {}
+        # for i in range(len(self.areas_of_study)):
+        #     programTitle = self.areas_of_study[i]
+        #     degreeType = self.degree_type[i]
+        #     self.program_to_degree[programTitle] = degreeType
 
         # Links
         self.school_website_url = response['results'][0]['latest']['school']['school_url']
@@ -91,13 +92,38 @@ def main(degree, residency, residency_preference, school_type, tuition_preferenc
     print()
 
     # Specify school...
-    schoolName = 'Harvard'
+    schoolName = 'Harvard' # FIXME: This would be where we add the name of whatever school the user clicks on to see more info about the school
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + schoolName
     response = getResponse(url)
     mySchool = School(response)
 
     # This function call below can be deleted, it was to debug/view variable outputs.
     optional_view_variables(mySchool)
+
+
+def fetch_most_popular_majors(response):
+    num_degree_types_ever_awarded = len(response["results"][0]["latest"]["programs"]["cip_4_digit"]) # The number of degree types ever awarded -- even if its not a current major/degree. (I think? My school has some degrees it doesn't give out)
+    num_graduates_by_major = []
+    for i in range(num_degree_types_ever_awarded):
+        major_name = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]["title"]
+        num_graduates_with_this_major = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]['counts']['ipeds_awards2']
+        type_of_degree = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]['credential']['title']
+        num_graduates_by_major.append([major_name, type_of_degree, num_graduates_with_this_major])
+
+    # print(num_graduates_by_major) # View each major and the number of graduates from that major
+
+    # Sorting function to handle None values inside of num_graduates_by_major
+    def custom_sort(item):
+        return item[2] if item[2] is not None else float('-inf')
+
+    # Sort the data in descending order based on the number of people in each major
+    sorted_data = sorted(num_graduates_by_major, key=custom_sort, reverse=True)
+
+    # Get the top 5 most popular majors
+    top_5_majors = sorted_data[:5]
+
+    # Print the result
+    return top_5_majors
 
 def optional_view_variables(mySchool):
     '''This helper function prints out all variable values in our School object to help debug/view for correct output'''
@@ -154,7 +180,7 @@ def optional_view_variables(mySchool):
     print('-----> Degrees Offered <-----')
     print()
 
-    print(f'Programs and Corresponding Degrees Offered:\n {mySchool.program_to_degree}') # NOTE: Returns a dictionary!
+    print(f'Most Popular Degrees:\n {mySchool.most_popular_majors}') # NOTE: Returns a dictionary!
     
     print()
     print('-----> External Links <-----')
@@ -165,4 +191,4 @@ def optional_view_variables(mySchool):
     print()
 
 # Run Program
-# main()
+main('Chemistry', 'california', 'outofstate', 'private', '40000', 'cant do this')
