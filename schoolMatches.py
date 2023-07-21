@@ -142,10 +142,9 @@ def main(degree, residency, residency_preference, school_type_preference, tuitio
     # Categories above are possible future additions since filtering by room price wasn't a filter option with our API.
 
 
-    url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=id,school.name,programs.cip_4_digit.school.type{degree_name}{school_state}{tuition_price_range}{school_type}&per_page=100'
+    url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=school.name{degree_name}{school_state}{tuition_price_range}{school_type}&per_page=100'
 
     response = get_api_response(url)
-    # print(response)
     school_matches = [school["school.name"] for school in response["results"]]   
     print()
     print(school_matches) 
