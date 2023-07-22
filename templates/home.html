@@ -8,8 +8,9 @@
     <link rel = "stylesheet" type = "text/css" href = "../static/css/home.css">
 </head>
 <body>
+    <h1>Welcome {{ user }}!</h1>
     <!-- Form for collecting user input on the school name (unfiltered) search -->
-    <form method="POST" action="/">
+    <form method="POST" action="/home">
         {{ unfilteredForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">
@@ -33,7 +34,7 @@
     </form>
 
     <!-- Form for collecting user inputs on the filtered search -->
-    <form method="POST" action="/">
+    <form method="POST" action="/home">
         {{ filteredForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">

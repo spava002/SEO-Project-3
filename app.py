@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from filteredForm import SchoolForm
 from unfilteredForm import SchoolNameForm
+from signUpForm import signUp
+from loginForm import login
 from singleSchoolData import singleSearch
 from schoolMatches import multipleSearch
 import git
@@ -57,6 +59,19 @@ with app.app_context():
     db.create_all()
 
 
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+
+
+    def __repr__(self):
+        return ""
+
+with app.app_context():
+    db.create_all()
+
+
 # Functionality to support website when hosted on pythonanywhere.com
 
 # @app.route("/update_server", methods=['POST'])
@@ -70,9 +85,38 @@ with app.app_context():
 #         return 'Wrong event type', 400
 
 
-# Route for home page
+# Route for login/sign-up page
 @app.route("/", methods=['POST', 'GET'])
+def renderLogin():
+    loginForm = login()
+    signUpForm = signUp()
+    if loginForm.validate_on_submit():
+        username = loginForm.username.data
+        password = loginForm.password.data
+        user = Users.query.filter_by(username=username).first()
+        if user and user.password == password:
+            return redirect(url_for("renderHome", user=username))
+        else:
+            flash("Invalid username or password!", "error")
+            return render_template("login.html", loginForm=loginForm, signUpForm=signUpForm)
+    elif signUpForm.validate_on_submit():
+        username = signUpForm.username.data
+        password = signUpForm.password.data
+        user_data = Users(username=username, password=password)
+        db.session.add(user_data)
+        db.session.commit()
+        logging.info(f"User data was added successfully!")
+        print(f"User: {username}")
+        print(f"Pass: {password}")
+        return redirect(url_for("renderHome", user=username))
+    return render_template("login.html", loginForm=loginForm, signUpForm=signUpForm)
+
+
+
+# Route for home page
+@app.route("/home", methods=['POST', 'GET'])
 def renderHome():
+    user = request.args.get('user')
     filteredForm = SchoolForm()
     unfilteredForm = SchoolNameForm()
     if filteredForm.validate_on_submit():
@@ -103,7 +147,7 @@ def renderHome():
         return render_template("searchResults.html", single_school_data=single_school_data)
         # return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!", single_school_data=single_school_data))
     
-    return render_template('home.html', filteredForm=filteredForm, unfilteredForm=unfilteredForm)
+    return render_template('home.html', user=user, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
 
 
 # Route for search results 
