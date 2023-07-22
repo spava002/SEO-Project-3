@@ -75,37 +75,37 @@ def get_api_response(url):
     response = requests.get(url, params=params).json()
     return response
 
-def extract_upper_price(price_range_string):
-    '''Function to extract the upper price range of tuition_preference and room_preference'''
-    # Split the price string based on the "-" character
-    parts = price_range_string.split('-')
-    # Extract the upper price range (second part of the split)
-    upper_price = parts[1]
-    # Remove any whitespace and the dollar sign ('$') from the upper price range
-    upper_price = upper_price.strip().replace('$', '')
+# def extract_upper_price(price_range_string):
+#     '''Function to extract the upper price range of tuition_preference and room_preference'''
+#     # Split the price string based on the "-" character
+#     parts = price_range_string.split('-')
+#     # Extract the upper price range (second part of the split)
+#     upper_price = parts[1]
+#     # Remove any whitespace and the dollar sign ('$') from the upper price range
+#     upper_price = upper_price.strip().replace('$', '')
     
-    return upper_price
+#     return upper_price
 
-def main(degree, residency, residency_preference, school_type_preference, tuition_preference, room_preference):
+def multipleSearch(degree, residency, residency_preference, school_type_preference, tuition_preference):
     degree_name = f'&programs.cip_4_digit.title={degree}.'
-    tuition_upper_price = extract_upper_price(tuition_preference)
+    # tuition_upper_price = extract_upper_price(tuition_preference)
     # room_upper_price = extract_upper_price(room_preference) FIXME: not used since can't filter by housing prices.
 
     # If out-of-state, find schools and costs for out-of-state
     if residency_preference == 'outofstate':
         school_state = f'&school.state__not={us_states_and_territories[residency]}'
-        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_upper_price}'
+        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
 
     # Elif preference is in-state, find schools and costs for in-state
     elif residency_preference == 'instate':
         school_state = f'&school.state={us_states_and_territories[residency]}'
-        tuition_price_range = f'&latest.cost.tuition.in_state__range=0..{tuition_upper_price}'
+        tuition_price_range = f'&latest.cost.tuition.in_state__range=0..{tuition_preference}'
 
     # Else, return schools in all states. TODO: calculate costs accordingly (ie. depending on homestate, give in-state or out-of-state pricing)
     else:
         school_state = '' # no preference for states
         # Default to show out-of-state pricing for now!
-        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_upper_price}'
+        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
        
     # Logic for displaying either private or public schools depending on preference
     if school_type_preference == 'private':
@@ -146,17 +146,17 @@ def main(degree, residency, residency_preference, school_type_preference, tuitio
 
     response = get_api_response(url)
     school_matches = [school["school.name"] for school in response["results"]]   
-    print()
-    print(school_matches) 
-    print()
-    print(f'This query returned {len(school_matches)} matches!')
-    print()
+    # print()
+    # print(school_matches) 
+    # print()
+    # print(f'This query returned {len(school_matches)} matches!')
+    # print()
     return school_matches
 
 
 
 # Note: final param, room_tuition_preference can't be used as a filter in our API.
-main('Computer Engineering', 'california', 'outofstate', 'private', '$0-$40000', 'cant be used')
+# main('Computer Engineering', 'california', 'outofstate', 'private', '40000')
 
 # This function call returns 94 school results. How should I pick the "top" 5 schools to show on the results page? or should i just return all of them? Right now all are returned.
 # I was thinking maybe showing top 5 by college ranking? this would require another API though since ours doesn't include this information.

@@ -3,9 +3,10 @@
     <title>Search Results</title>
 </head>
 <body>
+    <h1>Results</h1>
     <!-- Results for when a single school search is made -->
     {% if single_school_data %}
-        <h1>{{ single_school_data.school_name }}</h1>
+        <h2>{{ single_school_data.school_name }}</h2>
         <ul>
             <h3>Location Information</h3>
             <li>Location: {{ single_school_data.location_info }}</li>
@@ -59,5 +60,63 @@
             <li>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</li>
             <li>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</li>
         </ul>
+    <!-- Results for when a filtered search is made (Top 5 school data displays for now) -->
+    {% elif firstFiveSchools %}
+        {% for i in range(0, 5) %}
+            <h2>{{ firstFiveSchools[i].school_name }}</h2>
+            <ul>
+                <h3>Location Information</h3>
+                <li>Location: {{ firstFiveSchools[i].location_info }}</li>
+
+                <h3>School Facts</h3>
+                <li>Student Size: {{ firstFiveSchools[i].student_size }}</li>
+                <li>Is Undergraduate Only: {{ firstFiveSchools[i].is_undergraduate_only }}</li>
+
+                <h3>Cost of Attendance Info</h3>
+                <li>In State Tuition: ${{ firstFiveSchools[i].in_state_tuition }}</li>
+                <li>Out Of State Tuition: ${{ firstFiveSchools[i].out_state_tuition }}</li>
+                {% if firstFiveSchools[i].roomboard_on_campus == 0 %}
+                    <li>Roomboard On Campus: None Offered</li>
+                {% else %}
+                    <li>Roomboard On Campus: ${{ firstFiveSchools[i].roomboard_on_campus }}</li>
+                {% endif %}
+                {% if firstFiveSchools[i].roomboard_off_campus == 0 %}
+                    <li>Roomboard Off Campus: None Offered</li>
+                {% else %}
+                    <li>Roomboard Off Campus: ${{ firstFiveSchools[i].roomboard_off_campus }}</li>
+                {% endif %}
+                <li>Average Book Supply: ${{ firstFiveSchools[i].book_supply }}</li>
+
+                <h3>Financial Aid Info</h3>
+                <li>Average Overall Net Price: ${{ firstFiveSchools[i].average_overall_net_price }}</li>
+
+                <h3>Admissions Information</h3>
+                <li>Acceptance Rate: {{ firstFiveSchools[i].acceptance_rate * 100}}%</li>
+                <li>Average SAT Score: {{ firstFiveSchools[i].avg_SAT_score }}</li>
+                <li>Average ACT Score: {{ firstFiveSchools[i].avg_ACT_score }}</li>
+
+                <h3>Demographics Info</h3>
+                <li>Male: {{ firstFiveSchools[i].percent_male * 100}}%</li>
+                <li>Female: {{ firstFiveSchools[i].percent_female * 100}}%</li>
+                <li>Native American: {{ firstFiveSchools[i].percent_native_american * 100}}%</li>
+                <li>Native Hawaiian Pacific Islander: {{ firstFiveSchools[i].percent_native_hawaiian_pacific_islander * 100}}%</li>
+                <li>Asian: {{ firstFiveSchools[i].percent_asian * 100}}%</li>
+                <li>Black: {{ firstFiveSchools[i].percent_black * 100}}%</li>
+                <li>White: {{ firstFiveSchools[i].percent_white * 100}}%</li>
+                <li>Hispanic: {{ firstFiveSchools[i].percent_hispanic * 100}}%</li>
+                <li>Unknown Ethnicities: {{ firstFiveSchools[i].percent_ethnicity_unknown * 100}}%</li>
+
+                <h3>Most Popular Degrees Offered</h3>
+                <li>1: {{ firstFiveSchools[i].first_degree_offered }}</li>
+                <li>2: {{ firstFiveSchools[i].second_degree_offered }}</li>
+                <li>3: {{ firstFiveSchools[i].third_degree_offered }}</li>
+                <li>4: {{ firstFiveSchools[i].fourth_degree_offered }}</li>
+                <li>5: {{ firstFiveSchools[i].fifth_degree_offered }}</li>
+
+                <h3>External Links</h3>
+                <li>{{firstFiveSchools[i].school_name}}'s Website URL: {{ firstFiveSchools[i].school_website_url }}</li>
+                <li>{{firstFiveSchools[i].school_name}}'s Price Calculator: {{ firstFiveSchools[i].price_calculator_website }}</li>
+            </ul>
+        {% endfor %}
     {% endif %}
 </body>

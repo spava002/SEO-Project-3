@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from filteredForm import SchoolForm
 from unfilteredForm import SchoolNameForm
-from singleSchoolData import main
+from singleSchoolData import singleSearch
+from schoolMatches import multipleSearch
 import git
 import logging
 
@@ -14,9 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///unfilteredSchool.db'
 db = SQLAlchemy(app)
 
 
-class unfilteredSchool(db.Model):
+class Schools(db.Model):
     # id, degree, and residency will always contain a value
     id = db.Column(db.Integer, primary_key=True)
+    multiple_search = db.Column(db.Boolean, nullable=False)
     school_name = db.Column(db.String(50), nullable=False)
     location_info = db.Column(db.String(50), nullable=False)
     student_size = db.Column(db.Integer, nullable=False)
@@ -54,6 +56,7 @@ class unfilteredSchool(db.Model):
 with app.app_context():
     db.create_all()
 
+
 # Functionality to support website when hosted on pythonanywhere.com
 
 # @app.route("/update_server", methods=['POST'])
@@ -66,27 +69,34 @@ with app.app_context():
 #     else:
 #         return 'Wrong event type', 400
 
+
 # Route for home page
 @app.route("/", methods=['POST', 'GET'])
 def renderHome():
     filteredForm = SchoolForm()
     unfilteredForm = SchoolNameForm()
     if filteredForm.validate_on_submit():
-        '''
-        This portion was meant for testing purposes
-        '''
-        # degree = filteredForm.degree.data
-        # residency = filteredForm.residency.data
-        # residency_preference = filteredForm.residency_preference.data
-        # school_type = filteredForm.school_type.data
-        # tuition_preference = filteredForm.tuition_preference.data
+        degree = filteredForm.degree.data
+        residency = filteredForm.residency.data
+        residency_preference = filteredForm.residency_preference.data
+        school_type = filteredForm.school_type.data
+        tuition_preference = filteredForm.tuition_preference.data
         # average_cost_of_attendance = filteredForm.average_cost_of_attendance.data
-        # main(degree, residency, residency_preference, school_type, tuition_preference, average_cost_of_attendance)
-        return redirect(url_for('renderSearchResults', data="The filtered form was submitted!"))
+        school_matches = multipleSearch(degree, residency, residency_preference, school_type, tuition_preference)
+        firstFiveSchools = []
+        for i in range(0, 5):
+            singleSchoolData = singleSearch(school_matches[i])
+            single_school_data = Schools(school_name=school_matches[i], multiple_search=True, location_info=singleSchoolData["locationInfo"][0], student_size=singleSchoolData["schoolFacts"][0], is_undergraduate_only=singleSchoolData["schoolFacts"][1], in_state_tuition=singleSchoolData["costOfAttendanceInfo"][0], out_state_tuition=singleSchoolData["costOfAttendanceInfo"][1], roomboard_on_campus=singleSchoolData["costOfAttendanceInfo"][2], roomboard_off_campus=singleSchoolData["costOfAttendanceInfo"][3], book_supply=singleSchoolData["costOfAttendanceInfo"][4], average_overall_net_price=singleSchoolData["financialAidInfo"][0], acceptance_rate=singleSchoolData["admissionsInfo"][0], avg_SAT_score=singleSchoolData["admissionsInfo"][1], avg_ACT_score=singleSchoolData["admissionsInfo"][2], percent_male=singleSchoolData["demographicsInfo"][0], percent_female=singleSchoolData["demographicsInfo"][1], percent_native_american=singleSchoolData["demographicsInfo"][2], percent_native_hawaiian_pacific_islander=singleSchoolData["demographicsInfo"][3], percent_asian=singleSchoolData["demographicsInfo"][4], percent_black=singleSchoolData["demographicsInfo"][5], percent_white=singleSchoolData["demographicsInfo"][6], percent_hispanic=singleSchoolData["demographicsInfo"][7], percent_ethnicity_unknown=singleSchoolData["demographicsInfo"][8], first_degree_offered=singleSchoolData["topMajors"][0][1] + " in " + singleSchoolData["topMajors"][0][0] + " with currently " + str(singleSchoolData["topMajors"][0][2]) + " students.", second_degree_offered=singleSchoolData["topMajors"][1][1] + " in " + singleSchoolData["topMajors"][1][0] + " with currently " + str(singleSchoolData["topMajors"][1][2]) + " students.", third_degree_offered=singleSchoolData["topMajors"][2][1] + " in " + singleSchoolData["topMajors"][2][0] + " with currently " + str(singleSchoolData["topMajors"][2][2]) + " students.", fourth_degree_offered=singleSchoolData["topMajors"][3][1] + " in " + singleSchoolData["topMajors"][3][0] + " with currently " + str(singleSchoolData["topMajors"][3][2]) + " students.", fifth_degree_offered=singleSchoolData["topMajors"][4][1] + " in " + singleSchoolData["topMajors"][4][0] + " with currently " + str(singleSchoolData["topMajors"][4][2]) + " students.", school_website_url=singleSchoolData["externalLinks"][0], price_calculator_website=singleSchoolData["externalLinks"][1])
+            db.session.add(single_school_data)
+            db.session.commit()
+            logging.info(f"School data was added successfully!")
+            firstFiveSchools.append(single_school_data)
+        print(f"Routing: \n{firstFiveSchools}")
+        return render_template('searchResults.html', firstFiveSchools=firstFiveSchools)
     elif unfilteredForm.validate_on_submit():
         school_name = unfilteredForm.school_name.data
-        singleSchoolData = main(school_name)
-        single_school_data = unfilteredSchool(school_name=school_name, location_info=singleSchoolData["locationInfo"][0], student_size=singleSchoolData["schoolFacts"][0], is_undergraduate_only=singleSchoolData["schoolFacts"][1], in_state_tuition=singleSchoolData["costOfAttendanceInfo"][0], out_state_tuition=singleSchoolData["costOfAttendanceInfo"][1], roomboard_on_campus=singleSchoolData["costOfAttendanceInfo"][2], roomboard_off_campus=singleSchoolData["costOfAttendanceInfo"][3], book_supply=singleSchoolData["costOfAttendanceInfo"][4], average_overall_net_price=singleSchoolData["financialAidInfo"][0], acceptance_rate=singleSchoolData["admissionsInfo"][0], avg_SAT_score=singleSchoolData["admissionsInfo"][1], avg_ACT_score=singleSchoolData["admissionsInfo"][2], percent_male=singleSchoolData["demographicsInfo"][0], percent_female=singleSchoolData["demographicsInfo"][1], percent_native_american=singleSchoolData["demographicsInfo"][2], percent_native_hawaiian_pacific_islander=singleSchoolData["demographicsInfo"][3], percent_asian=singleSchoolData["demographicsInfo"][4], percent_black=singleSchoolData["demographicsInfo"][5], percent_white=singleSchoolData["demographicsInfo"][6], percent_hispanic=singleSchoolData["demographicsInfo"][7], percent_ethnicity_unknown=singleSchoolData["demographicsInfo"][8], first_degree_offered=singleSchoolData["topMajors"][0][1] + " in " + singleSchoolData["topMajors"][0][0] + " with currently " + str(singleSchoolData["topMajors"][0][2]) + " students.", second_degree_offered=singleSchoolData["topMajors"][1][1] + " in " + singleSchoolData["topMajors"][1][0] + " with currently " + str(singleSchoolData["topMajors"][1][2]) + " students.", third_degree_offered=singleSchoolData["topMajors"][2][1] + " in " + singleSchoolData["topMajors"][2][0] + " with currently " + str(singleSchoolData["topMajors"][2][2]) + " students.", fourth_degree_offered=singleSchoolData["topMajors"][3][1] + " in " + singleSchoolData["topMajors"][3][0] + " with currently " + str(singleSchoolData["topMajors"][3][2]) + " students.", fifth_degree_offered=singleSchoolData["topMajors"][4][1] + " in " + singleSchoolData["topMajors"][4][0] + " with currently " + str(singleSchoolData["topMajors"][4][2]) + " students.", school_website_url=singleSchoolData["externalLinks"][0], price_calculator_website=singleSchoolData["externalLinks"][1])
+        singleSchoolData = singleSearch(school_name)
+        single_school_data = Schools(school_name=school_name, multiple_search=False, location_info=singleSchoolData["locationInfo"][0], student_size=singleSchoolData["schoolFacts"][0], is_undergraduate_only=singleSchoolData["schoolFacts"][1], in_state_tuition=singleSchoolData["costOfAttendanceInfo"][0], out_state_tuition=singleSchoolData["costOfAttendanceInfo"][1], roomboard_on_campus=singleSchoolData["costOfAttendanceInfo"][2], roomboard_off_campus=singleSchoolData["costOfAttendanceInfo"][3], book_supply=singleSchoolData["costOfAttendanceInfo"][4], average_overall_net_price=singleSchoolData["financialAidInfo"][0], acceptance_rate=singleSchoolData["admissionsInfo"][0], avg_SAT_score=singleSchoolData["admissionsInfo"][1], avg_ACT_score=singleSchoolData["admissionsInfo"][2], percent_male=singleSchoolData["demographicsInfo"][0], percent_female=singleSchoolData["demographicsInfo"][1], percent_native_american=singleSchoolData["demographicsInfo"][2], percent_native_hawaiian_pacific_islander=singleSchoolData["demographicsInfo"][3], percent_asian=singleSchoolData["demographicsInfo"][4], percent_black=singleSchoolData["demographicsInfo"][5], percent_white=singleSchoolData["demographicsInfo"][6], percent_hispanic=singleSchoolData["demographicsInfo"][7], percent_ethnicity_unknown=singleSchoolData["demographicsInfo"][8], first_degree_offered=singleSchoolData["topMajors"][0][1] + " in " + singleSchoolData["topMajors"][0][0] + " with currently " + str(singleSchoolData["topMajors"][0][2]) + " students.", second_degree_offered=singleSchoolData["topMajors"][1][1] + " in " + singleSchoolData["topMajors"][1][0] + " with currently " + str(singleSchoolData["topMajors"][1][2]) + " students.", third_degree_offered=singleSchoolData["topMajors"][2][1] + " in " + singleSchoolData["topMajors"][2][0] + " with currently " + str(singleSchoolData["topMajors"][2][2]) + " students.", fourth_degree_offered=singleSchoolData["topMajors"][3][1] + " in " + singleSchoolData["topMajors"][3][0] + " with currently " + str(singleSchoolData["topMajors"][3][2]) + " students.", fifth_degree_offered=singleSchoolData["topMajors"][4][1] + " in " + singleSchoolData["topMajors"][4][0] + " with currently " + str(singleSchoolData["topMajors"][4][2]) + " students.", school_website_url=singleSchoolData["externalLinks"][0], price_calculator_website=singleSchoolData["externalLinks"][1])
         db.session.add(single_school_data)
         db.session.commit()
         logging.info(f"School data was added successfully!")
@@ -112,13 +122,13 @@ def renderChoseCollege():
 # Route for a database page (meant for testing purposes)
 @app.route("/db")
 def renderDb():
-    all_school_data = unfilteredSchool.query.all()
+    all_school_data = Schools.query.all()
     return render_template('db.html', all_school_data=all_school_data)
 
 
 @app.route('/delete-school/<int:id>')
 def delete_song(id):
-    school = unfilteredSchool.query.get_or_404(id)
+    school = Schools.query.get_or_404(id)
 
     try:
         db.session.delete(school)
