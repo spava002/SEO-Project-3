@@ -6,6 +6,7 @@
 
 import requests
 
+
 class School:
     def __init__(self, response):
         '''Initializes member variables that hold key information about the specified school'''
@@ -51,23 +52,13 @@ class School:
         self.percent_hispanic = response['results'][0]['latest']['student']['demographics']['race_ethnicity']['hispanic']
         self.percent_ethnicity_unknown = response['results'][0]['latest']['student']['demographics']['race_ethnicity']['unknown']
 
-        # Degrees Offered
-        self.areas_of_study = []
-        self.degree_type = []
-        for program in response['results'][0]['latest']['programs']['cip_4_digit']:
-            self.areas_of_study.append(program['title'])
-            self.degree_type.append(program['credential']['title'])
-    
-        # Make dictionary where self.areas_of_study[i] : self.degree_type[i] --> aka, dictonary has the format --> Program Name (like Chemistry) : Degree Type (bachlor's, masters, etc.)
-        self.program_to_degree = {}
-        for i in range(len(self.areas_of_study)):
-            programTitle = self.areas_of_study[i]
-            degreeType = self.degree_type[i]
-            self.program_to_degree[programTitle] = degreeType
+        # Top 5 Majors For Desired School
+        self.most_popular_majors = fetch_most_popular_majors(response)
 
         # Links
         self.school_website_url = response['results'][0]['latest']['school']['school_url']
         self.price_calculator_website_url = response['results'][0]['latest']['school']['price_calculator_url']
+
 
 def getResponse(url):
     '''This helper function accesses our API to return the JSON file with school information'''
@@ -78,16 +69,40 @@ def getResponse(url):
     response = requests.get(url, params=params).json()
     return response
 
+
 def main(school_name):
     # Specify school...
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + school_name
     response = getResponse(url)
     mySchool = School(response)
 
-    # This function call below can be deleted, it was to debug/view variable outputs.
-    return optional_view_variables(mySchool)
+    return generateSchoolData(mySchool)
 
-def optional_view_variables(mySchool):
+
+def fetch_most_popular_majors(response):
+    num_degree_types_ever_awarded = len(response["results"][0]["latest"]["programs"]["cip_4_digit"]) # The number of degree types ever awarded -- even if its not a current major/degree. (I think? My school has some degrees it doesn't give out)
+    num_graduates_by_major = []
+    for i in range(num_degree_types_ever_awarded):
+        major_name = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]["title"]
+        num_graduates_with_this_major = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]['counts']['ipeds_awards2']
+        type_of_degree = response["results"][0]["latest"]["programs"]["cip_4_digit"][i]['credential']['title']
+        num_graduates_by_major.append([major_name, type_of_degree, num_graduates_with_this_major])
+
+    # Sorting function to handle None values inside of num_graduates_by_major
+    def custom_sort(item):
+        return item[2] if item[2] is not None else float('-inf')
+
+    # Sort the data in descending order based on the number of people in each major
+    sorted_data = sorted(num_graduates_by_major, key=custom_sort, reverse=True)
+
+    # Get the top 5 most popular majors
+    top_5_majors = sorted_data[:5]
+
+    # Print the result
+    return top_5_majors
+
+
+def generateSchoolData(mySchool):
     '''This helper function prints out all variable values in our School object to help debug/view for correct output'''
     singleSchoolData = {}
     # print('-----> Location Info <-----')
@@ -177,8 +192,8 @@ def optional_view_variables(mySchool):
     # print(f'Programs and Corresponding Degrees Offered:\n {mySchool.program_to_degree}') # NOTE: Returns a dictionary!
 
     # Replacement code for programs/degrees until more compressed solution is offered
-    degreesOffered = ["Program 1, Degree 1", "Program 2, Degree 2", "Program 3, Degree 3", "Program 4, Degree 4", "Program 5, Degree 5"]
-    singleSchoolData.update({"degreesOffered":degreesOffered})
+    topMajors = mySchool.most_popular_majors
+    singleSchoolData.update({"topMajors":topMajors})
     
     # print()
     # print('-----> External Links <-----')
@@ -192,6 +207,3 @@ def optional_view_variables(mySchool):
     singleSchoolData.update({"externalLinks": externalLinks})
 
     return singleSchoolData
-
-# Run Program
-# main()
