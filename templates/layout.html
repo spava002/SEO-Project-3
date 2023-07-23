@@ -45,6 +45,18 @@
                         Home
                       </a>
                     </li>
+                    <li class="nav-itm active">
+                      <a href="{{ url_for('renderSearchHistory') }}" class="nav-link active">
+                        Search History
+                      </a>
+                    </li>
+                    {% if user == "Developer" %}
+                    <li class="nav-itm active">
+                      <a href="{{ url_for('renderDb') }}" class="nav-link active">
+                        Database
+                      </a>
+                    </li>
+                    {% endif %}
                 </ul>
 ​
               </div>
