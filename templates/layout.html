@@ -6,46 +6,81 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/layout.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
   </head>
-  <center>
-    <strong>
+​
+​
     <body style="height:1500px">
-
-      <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-info">
-        <a
-          href="#"
-          class="navbar-brand mb-0 h1">
-            <img src="static/savvy_pic.png" alt="Sip Savvy"
-            width="120" height="120"/>
-        </a>
-
-        <button 
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          class="navbar-toggler"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div 
-          class="collapse navbar-collapse" 
-          id="navbarNav">
-          <ul class="navbar-nav">
-              <li class="nav-itm active">
-                <a href="{{ url_for('renderHome') }}" class="nav-link active">
-                  Home
-                </a>
-              </li>
-          </ul>
-
-        </div>
-      </nav>  
-
+      <header>
+        <dev class="navColor">
+            <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-secondary">
+             <!-- this is the LOGO -->
+              <a
+                href="#"
+                class="navbar-brand mb-0 h1">
+                  <img src="static/seo_logo.png" alt="UniSelect"
+                  width="120" height="120"/>
+              </a>
+​
+            <!--this makes the the nav bar open if needed-->
+              <button 
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                class="navbar-toggler"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+​
+​
+            <!-- this makes navbar collapse if needed-->
+              <div 
+                class="collapse navbar-collapse" 
+                id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-itm active">
+                      <a href="{{ url_for('renderHome') }}" class="nav-link active">
+                        Home
+                      </a>
+                    </li>
+                </ul>
+​
+              </div>
+​
+​
+          
+          <div class="search-bar">
+            <!-- Form for collecting user input on the school name (unfiltered) search -->
+              <form method="POST" action="/home">
+                  {{ unfilteredForm.hidden_tag() }}
+                  <fieldset class="form-group">
+                  <div class="form-group">
+                      <!-- Receives the required input of 'degree' -->
+                      {{ unfilteredForm.school_name.label(class="form-control-label") }}
+                      {% if unfilteredForm.school_name.errors %}
+                      {{ unfilteredForm.school_name(class="form-control form-control-sm is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in unfilteredForm.school_name.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                      {% else %}
+                      {{ unfilteredForm.school_name(class="form-control form-control-sm") }}
+                      {% endif %}
+                  </div>
+                  </fieldset>
+                  <div class="form-group">
+                  {{ unfilteredForm.submit(class="btn btn-outline-light") }}
+                  </div>
+              </form>
+          </div> 
+​
+            </nav>  
+        </dev>
+        </header>
+​
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -53,6 +88,5 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       {%block content%} {%endblock%}  <!-- Placeholder for the content of each page -->
   </body>
-  </strong>
-  </center>
+​
 </html>
