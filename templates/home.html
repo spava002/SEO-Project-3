@@ -8,6 +8,7 @@
     <link rel = "stylesheet" type = "text/css" href = "../static/css/home.css">
 </head>
 <body>
+    <div class = 'collegeimage'>
     {% if user != None %}
         <h1>Welcome {{ user }}!</h1>
 
@@ -57,6 +58,7 @@
     {% else %}
         <h1>You are not authorized to access this!</h1>
     {% endif %}
+    </div>
 </body>
 </html>
 {% endblock %}

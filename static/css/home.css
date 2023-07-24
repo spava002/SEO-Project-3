@@ -1,15 +1,17 @@
 /* Set background color and font styles for the entire page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color:white;
     color: #333;
-    background-image: url_for('static',filename='BostonCollege1.jpeg');
-    /* background-image: url_for("../static/BostonCollege1.jpeg"); */
     background-size: cover; 
     background-position: center; 
+    background-attachment: fixed;
    
 }
 
+.collegeimage{
+    background-image: url('../BostonCollege1.jpeg');
+}
 /* Style the main heading */
 h1 {
     text-align: center;
@@ -21,7 +23,7 @@ form {
     margin: 20px auto;
     max-width: 600px;
     padding: 20px;
-    background-color: #fff;
+    background-color: transparent;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +51,14 @@ form {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
+    color:black;
+    background-color: lightgrey;
+    
+}
+
+.btn:hover{
+    background-color: cadetblue;
+    color: white
 }
 
 .btn-outline-info {

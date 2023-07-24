@@ -9,7 +9,7 @@
   </head>
 ​
 ​
-    <body style="height:1500px">
+    <body>
       <header>
         <dev class="navColor">
             <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-secondary">
@@ -17,7 +17,7 @@
               <a
                 href="#"
                 class="navbar-brand mb-0 h1">
-                  <img src="static/seo_logo.png" alt="UniSelect"
+                  <img src="{{url_for('static',filename='BostonCollege1.jpeg')}}" alt="UniSelect"
                   width="120" height="120"/>
               </a>
 ​
@@ -83,7 +83,7 @@
                       {% endif %}
                   </div>
                   </fieldset>
-                  <div class="form-group">
+                  <div id="searchbutton" class="form-group">
                   {{ unfilteredForm.submit(class="btn btn-outline-light") }}
                   </div>
               </form>
