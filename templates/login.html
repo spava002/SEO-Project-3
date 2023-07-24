@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login/Sign-Up</title>
+</head>
+<body>
+    <h3>Please Login to Continue</h3>
+    <!-- Form for collecting login information -->
+    <form method="POST" action="/">
+        {{ loginForm.hidden_tag() }}
+        <fieldset class="form-group">
+        <div class="form-group">
+            <!-- Receives the required input of 'username' -->
+            {{ loginForm.username.label(class="form-control-label") }}
+            {% if loginForm.username.errors %}
+            {{ loginForm.username(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in loginForm.username.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ loginForm.username(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the required input of 'password' -->
+            {{ loginForm.password.label(class="form-control-label") }}
+            {% if loginForm.password.errors %}
+            {{ loginForm.password(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in loginForm.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ loginForm.password(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        </fieldset>
+        <div class="form-group">
+        {{ loginForm.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+
+    <h3>New? Sign-up Below!</h3>
+    <!-- Form for collecting sign up information -->
+    <form method="POST" action="/signup">
+        {{ signUpForm.hidden_tag() }}
+        <fieldset class="form-group">
+        <div class="form-group">
+            <!-- Receives the required input of 'username' -->
+            {{ signUpForm.username.label(class="form-control-label") }}
+            {% if signUpForm.username.errors %}
+            {{ signUpForm.username(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in signUpForm.username.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ signUpForm.username(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the required input of 'password' -->
+            {{ signUpForm.password.label(class="form-control-label") }}
+            {% if signUpForm.password.errors %}
+            {{ signUpForm.password(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in signUpForm.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ signUpForm.password(class="form-control form-control-lg") }}
+            {% endif %}
+
+            <!-- Receives the required input of 'confirm password' -->
+            {{ signUpForm.confirm_password.label(class="form-control-label") }}
+            {% if signUpForm.confirm_password.errors %}
+            {{ signUpForm.confirm_password(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in signUpForm.confirm_password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ signUpForm.confirm_password(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        </fieldset>
+        <div class="form-group">
+        {{ signUpForm.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+<body>
+<html>

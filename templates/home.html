@@ -8,73 +8,55 @@
     <link rel = "stylesheet" type = "text/css" href = "../static/css/home.css">
 </head>
 <body>
-    <!-- Form for collecting user input on the school name (unfiltered) search -->
-    <form method="POST" action="/">
-        {{ unfilteredForm.hidden_tag() }}
-        <fieldset class="form-group">
-        <div class="form-group">
-            <!-- Receives the required input of 'degree' -->
-            {{ unfilteredForm.school_name.label(class="form-control-label") }}
-            {% if unfilteredForm.school_name.errors %}
-            {{ unfilteredForm.school_name(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-                {% for error in unfilteredForm.school_name.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+    {% if user != None %}
+        <h1>Welcome {{ user }}!</h1>
+
+        <!-- Form for collecting user inputs on the filtered search -->
+        <form method="POST" action="/home">
+            {{ filteredForm.hidden_tag() }}
+            <fieldset class="form-group">
+            <div class="form-group">
+                <!-- Receives the required input of 'degree' -->
+                {{ filteredForm.degree.label(class="form-control-label") }}
+                {% if filteredForm.degree.errors %}
+                {{ filteredForm.degree(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in filteredForm.degree.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ filteredForm.degree(class="form-control form-control-lg") }}
+                {% endif %}
+                
+                <!-- Receives the required input of 'residency' -->
+                {{ filteredForm.residency.label(class="form-control-label") }}
+                {{ filteredForm.residency(class="form-control form-control-lg") }}
+
+                <!-- Receives the required input of 'residency_preference' -->
+                {{ filteredForm.residency_preference.label(class="form-control-label") }}
+                {{ filteredForm.residency_preference(class="form-control form-control-lg") }}
+
+                <!-- Receives the optional input of 'school_type' -->
+                {{ filteredForm.school_type.label(class="form-control-label") }}
+                {{ filteredForm.school_type(class="form-control form-control-lg") }}
+
+                <!-- Receives the optional input of 'tuition_preference' -->
+                {{ filteredForm.tuition_preference.label(class="form-control-label") }}
+                {{ filteredForm.tuition_preference(class="form-control form-control-lg") }}
+
+                <!-- Receives the optional input of 'average_cost_of_attendance' -->
+                {{ filteredForm.average_cost_of_attendance.label(class="form-control-label") }}
+                {{ filteredForm.average_cost_of_attendance(class="form-control form-control-lg") }}
             </div>
-            {% else %}
-            {{ unfilteredForm.school_name(class="form-control form-control-lg") }}
-            {% endif %}
-        </div>
-        </fieldset>
-        <div class="form-group">
-        {{ unfilteredForm.submit(class="btn btn-outline-info") }}
-        </div>
-    </form>
-
-    <!-- Form for collecting user inputs on the filtered search -->
-    <form method="POST" action="/">
-        {{ filteredForm.hidden_tag() }}
-        <fieldset class="form-group">
-        <div class="form-group">
-            <!-- Receives the required input of 'degree' -->
-            {{ filteredForm.degree.label(class="form-control-label") }}
-            {% if filteredForm.degree.errors %}
-            {{ filteredForm.degree(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-                {% for error in filteredForm.degree.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+            {{ filteredForm.submit(class="btn btn-outline-info") }}
             </div>
-            {% else %}
-            {{ filteredForm.degree(class="form-control form-control-lg") }}
-            {% endif %}
-            
-            <!-- Receives the required input of 'residency' -->
-            {{ filteredForm.residency.label(class="form-control-label") }}
-            {{ filteredForm.residency(class="form-control form-control-lg") }}
-
-            <!-- Receives the required input of 'residency_preference' -->
-            {{ filteredForm.residency_preference.label(class="form-control-label") }}
-            {{ filteredForm.residency_preference(class="form-control form-control-lg") }}
-
-            <!-- Receives the optional input of 'school_type' -->
-            {{ filteredForm.school_type.label(class="form-control-label") }}
-            {{ filteredForm.school_type(class="form-control form-control-lg") }}
-
-            <!-- Receives the optional input of 'tuition_preference' -->
-            {{ filteredForm.tuition_preference.label(class="form-control-label") }}
-            {{ filteredForm.tuition_preference(class="form-control form-control-lg") }}
-
-            <!-- Receives the optional input of 'average_cost_of_attendance' -->
-            {{ filteredForm.average_cost_of_attendance.label(class="form-control-label") }}
-            {{ filteredForm.average_cost_of_attendance(class="form-control form-control-lg") }}
-        </div>
-        </fieldset>
-        <div class="form-group">
-        {{ filteredForm.submit(class="btn btn-outline-info") }}
-        </div>
-    </form>
+        </form>
+    {% else %}
+        <h1>You are not authorized to access this!</h1>
+    {% endif %}
 </body>
 </html>
 {% endblock %}

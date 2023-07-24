@@ -70,7 +70,7 @@ def getResponse(url):
     return response
 
 
-def main(school_name):
+def singleSearch(school_name):
     # Specify school...
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + school_name
     response = getResponse(url)
@@ -122,6 +122,8 @@ def generateSchoolData(mySchool):
     # print(f'Undergraduate Only?:                        {mySchool.is_undergraduate_only}')
 
     schoolFacts = [mySchool.student_size, mySchool.is_undergraduate_only]
+    if schoolFacts[0] == None:
+        schoolFacts[0] = 0
     singleSchoolData.update({"schoolFacts": schoolFacts})
 
     # print()
@@ -134,19 +136,10 @@ def generateSchoolData(mySchool):
     # print(f'Roomboard Off-Campus Cost:                  {mySchool.roomboard_off_campus}')
     # print(f'Booksupply Cost:                            {mySchool.booksupply}')
 
-    # Few cases where they may be 'None', so need to give it a value that is passable onto the database
-    roomboard_on_campus = None
-    roomboard_off_campus = None
-    if mySchool.roomboard_off_campus == None:
-        roomboard_off_campus = 0
-    else:
-        roomboard_off_campus = mySchool.roomboard_off_campus
-    if mySchool.roomboard_on_campus == None:
-        roomboard_on_campus = 0
-    else:
-        roomboard_on_campus = mySchool.roomboard_on_campus
-
-    costOfAttendanceInfo = [mySchool.tuition_in_state, mySchool.tuition_out_of_state, roomboard_on_campus, roomboard_off_campus, mySchool.booksupply]
+    costOfAttendanceInfo = [mySchool.tuition_in_state, mySchool.tuition_out_of_state, mySchool.roomboard_on_campus, mySchool.roomboard_off_campus, mySchool.booksupply]
+    for i in range(len(costOfAttendanceInfo)):
+        if costOfAttendanceInfo[i] == None:
+            costOfAttendanceInfo[i] = 0
     singleSchoolData.update({"costOfAttendanceInfo": costOfAttendanceInfo})
 
     # print()
@@ -156,6 +149,8 @@ def generateSchoolData(mySchool):
     # print(f'Average Net Cost (after aid):               {mySchool.average_overall_net_price}')
 
     financialAidInfo = [mySchool.average_overall_net_price]
+    if financialAidInfo[0] == None:
+        financialAidInfo[0] = 0
     singleSchoolData.update({"financialAidInfo": financialAidInfo})
    
     # print()
@@ -166,6 +161,9 @@ def generateSchoolData(mySchool):
     # print(f'Average ACT Score:                          {mySchool.average_ACT_score}')
 
     admissionsInfo = [mySchool.acceptance_rate, mySchool.average_SAT_score, mySchool.average_ACT_score]
+    for i in range(len(admissionsInfo)):
+        if admissionsInfo[i] == None:
+            admissionsInfo[i] = 0
     singleSchoolData.update({"admissionsInfo": admissionsInfo})
     
     # print()
@@ -183,6 +181,9 @@ def generateSchoolData(mySchool):
     # print(f'Percent Ethnicity Unknown:                  {mySchool.percent_ethnicity_unknown}')
 
     demographicsInfo = [mySchool.percent_male, mySchool.percent_female, mySchool.percent_native_american, mySchool.percent_native_hawaiian_pacific_islander, mySchool.percent_asian, mySchool.percent_black, mySchool.percent_white, mySchool.percent_hispanic, mySchool.percent_ethnicity_unknown]
+    for i in range(len(demographicsInfo)):
+        if demographicsInfo[i] == None:
+            demographicsInfo[i] = 0
     singleSchoolData.update({"demographicsInfo": demographicsInfo})
     
     # print()
