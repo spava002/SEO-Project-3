@@ -1,126 +1,130 @@
-<!DOCTYPE html>
-<head>
-    <title>Search Results</title>
-</head>
-<body>
-    <h1>Results</h1>
-    <!-- Results for when a single school search is made -->
-    {% if single_school_data %}
-        <h2>{{ single_school_data.school_name }}</h2>
-        <ul>
-            <h3>Location Information</h3>
-            <li>Location: {{ single_school_data.location_info }}</li>
-
-            <h3>School Facts</h3>
-            <li>Student Size: {{ single_school_data.student_size }}</li>
-            <li>Is Undergraduate Only: {{ single_school_data.is_undergraduate_only }}</li>
-
-            <h3>Cost of Attendance Info</h3>
-            <li>In State Tuition: ${{ single_school_data.in_state_tuition }}</li>
-            <li>Out Of State Tuition: ${{ single_school_data.out_state_tuition }}</li>
-            {% if single_school_data.roomboard_on_campus == 0 %}
-                <li>Roomboard On Campus: None Offered</li>
-            {% else %}
-                <li>Roomboard On Campus: ${{ single_school_data.roomboard_on_campus }}</li>
-            {% endif %}
-            {% if single_school_data.roomboard_off_campus == 0 %}
-                <li>Roomboard Off Campus: None Offered</li>
-            {% else %}
-                <li>Roomboard Off Campus: ${{ single_school_data.roomboard_off_campus }}</li>
-            {% endif %}
-            <li>Average Book Supply: ${{ single_school_data.book_supply }}</li>
-
-            <h3>Financial Aid Info</h3>
-            <li>Average Overall Net Price: ${{ single_school_data.average_overall_net_price }}</li>
-
-            <h3>Admissions Information</h3>
-            <li>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</li>
-            <li>Average SAT Score: {{ single_school_data.avg_SAT_score }}</li>
-            <li>Average ACT Score: {{ single_school_data.avg_ACT_score }}</li>
-
-            <h3>Demographics Info</h3>
-            <li>Male: {{ single_school_data.percent_male * 100}}%</li>
-            <li>Female: {{ single_school_data.percent_female * 100}}%</li>
-            <li>Native American: {{ single_school_data.percent_native_american * 100}}%</li>
-            <li>Native Hawaiian Pacific Islander: {{ single_school_data.percent_native_hawaiian_pacific_islander * 100}}%</li>
-            <li>Asian: {{ single_school_data.percent_asian * 100}}%</li>
-            <li>Black: {{ single_school_data.percent_black * 100}}%</li>
-            <li>White: {{ single_school_data.percent_white * 100}}%</li>
-            <li>Hispanic: {{ single_school_data.percent_hispanic * 100}}%</li>
-            <li>Unknown Ethnicities: {{ single_school_data.percent_ethnicity_unknown * 100}}%</li>
-
-            <h3>Most Popular Degrees Offered</h3>
-            <li>1: {{ single_school_data.first_degree_offered }}</li>
-            <li>2: {{ single_school_data.second_degree_offered }}</li>
-            <li>3: {{ single_school_data.third_degree_offered }}</li>
-            <li>4: {{ single_school_data.fourth_degree_offered }}</li>
-            <li>5: {{ single_school_data.fifth_degree_offered }}</li>
-
-            <h3>External Links</h3>
-            <li>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</li>
-            <li>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</li>
-        </ul>
-    <!-- Results for when a filtered search is made (Top 5 school data display IF AVAILABLE) -->
-    {% elif firstFiveSchools %}
-        {% for school in firstFiveSchools %}
-            <h2>{{ school.school_name }}</h2>
+{% if user is defined and user is not none and logged_in %}
+   <!DOCTYPE html>
+    <head>
+        <title>Search Results</title>
+    </head>
+    <body>
+        <h1>Results</h1>
+        <!-- Results for when a single school search is made -->
+        {% if single_school_data %}
+            <h2>{{ single_school_data.school_name }}</h2>
             <ul>
                 <h3>Location Information</h3>
-                <li>Location: {{ school.location_info }}</li>
+                <li>Location: {{ single_school_data.location_info }}</li>
 
                 <h3>School Facts</h3>
-                <li>Student Size: {{ school.student_size }}</li>
-                <li>Is Undergraduate Only: {{ school.is_undergraduate_only }}</li>
+                <li>Student Size: {{ single_school_data.student_size }}</li>
+                <li>Is Undergraduate Only: {{ single_school_data.is_undergraduate_only }}</li>
 
                 <h3>Cost of Attendance Info</h3>
-                <li>In State Tuition: ${{ school.in_state_tuition }}</li>
-                <li>Out Of State Tuition: ${{ school.out_state_tuition }}</li>
-                {% if school.roomboard_on_campus == 0 %}
+                <li>In State Tuition: ${{ single_school_data.in_state_tuition }}</li>
+                <li>Out Of State Tuition: ${{ single_school_data.out_state_tuition }}</li>
+                {% if single_school_data.roomboard_on_campus == 0 %}
                     <li>Roomboard On Campus: None Offered</li>
                 {% else %}
-                    <li>Roomboard On Campus: ${{ school.roomboard_on_campus }}</li>
+                    <li>Roomboard On Campus: ${{ single_school_data.roomboard_on_campus }}</li>
                 {% endif %}
-                {% if school.roomboard_off_campus == 0 %}
+                {% if single_school_data.roomboard_off_campus == 0 %}
                     <li>Roomboard Off Campus: None Offered</li>
                 {% else %}
-                    <li>Roomboard Off Campus: ${{ school.roomboard_off_campus }}</li>
+                    <li>Roomboard Off Campus: ${{ single_school_data.roomboard_off_campus }}</li>
                 {% endif %}
-                <li>Average Book Supply: ${{ school.book_supply }}</li>
+                <li>Average Book Supply: ${{ single_school_data.book_supply }}</li>
 
                 <h3>Financial Aid Info</h3>
-                <li>Average Overall Net Price: ${{ school.average_overall_net_price }}</li>
+                <li>Average Overall Net Price: ${{ single_school_data.average_overall_net_price }}</li>
 
                 <h3>Admissions Information</h3>
-                <li>Acceptance Rate: {{ school.acceptance_rate * 100}}%</li>
-                <li>Average SAT Score: {{ school.avg_SAT_score }}</li>
-                <li>Average ACT Score: {{ school.avg_ACT_score }}</li>
+                <li>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</li>
+                <li>Average SAT Score: {{ single_school_data.avg_SAT_score }}</li>
+                <li>Average ACT Score: {{ single_school_data.avg_ACT_score }}</li>
 
                 <h3>Demographics Info</h3>
-                <li>Male: {{ school.percent_male * 100}}%</li>
-                <li>Female: {{ school.percent_female * 100}}%</li>
-                <li>Native American: {{ school.percent_native_american * 100}}%</li>
-                <li>Native Hawaiian Pacific Islander: {{ school.percent_native_hawaiian_pacific_islander * 100}}%</li>
-                <li>Asian: {{ school.percent_asian * 100}}%</li>
-                <li>Black: {{ school.percent_black * 100}}%</li>
-                <li>White: {{ school.percent_white * 100}}%</li>
-                <li>Hispanic: {{ school.percent_hispanic * 100}}%</li>
-                <li>Unknown Ethnicities: {{ school.percent_ethnicity_unknown * 100}}%</li>
+                <li>Male: {{ single_school_data.percent_male * 100}}%</li>
+                <li>Female: {{ single_school_data.percent_female * 100}}%</li>
+                <li>Native American: {{ single_school_data.percent_native_american * 100}}%</li>
+                <li>Native Hawaiian Pacific Islander: {{ single_school_data.percent_native_hawaiian_pacific_islander * 100}}%</li>
+                <li>Asian: {{ single_school_data.percent_asian * 100}}%</li>
+                <li>Black: {{ single_school_data.percent_black * 100}}%</li>
+                <li>White: {{ single_school_data.percent_white * 100}}%</li>
+                <li>Hispanic: {{ single_school_data.percent_hispanic * 100}}%</li>
+                <li>Unknown Ethnicities: {{ single_school_data.percent_ethnicity_unknown * 100}}%</li>
 
                 <h3>Most Popular Degrees Offered</h3>
-                <li>1: {{ school.first_degree_offered }}</li>
-                <li>2: {{ school.second_degree_offered }}</li>
-                <li>3: {{ school.third_degree_offered }}</li>
-                <li>4: {{ school.fourth_degree_offered }}</li>
-                <li>5: {{ school.fifth_degree_offered }}</li>
+                <li>1: {{ single_school_data.first_degree_offered }}</li>
+                <li>2: {{ single_school_data.second_degree_offered }}</li>
+                <li>3: {{ single_school_data.third_degree_offered }}</li>
+                <li>4: {{ single_school_data.fourth_degree_offered }}</li>
+                <li>5: {{ single_school_data.fifth_degree_offered }}</li>
 
                 <h3>External Links</h3>
-                <li>{{school.school_name}}'s Website URL: {{ school.school_website_url }}</li>
-                <li>{{school.school_name}}'s Price Calculator: {{ school.price_calculator_website }}</li>
+                <li>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</li>
+                <li>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</li>
             </ul>
-        {% endfor %}
-    {% else %}
-        <h2>Unfortunately we weren't able to find results!</h2>
-        <h4>Tip: Check that the school name was input correctly.</h4>
-        <h4>Tip: Try being more specific with the degree name.</h4>
-    {% endif %}
-</body>
+        <!-- Results for when a filtered search is made (Top 5 school data display IF AVAILABLE) -->
+        {% elif firstFiveSchools %}
+            {% for school in firstFiveSchools %}
+                <h2>{{ school.school_name }}</h2>
+                <ul>
+                    <h3>Location Information</h3>
+                    <li>Location: {{ school.location_info }}</li>
+
+                    <h3>School Facts</h3>
+                    <li>Student Size: {{ school.student_size }}</li>
+                    <li>Is Undergraduate Only: {{ school.is_undergraduate_only }}</li>
+
+                    <h3>Cost of Attendance Info</h3>
+                    <li>In State Tuition: ${{ school.in_state_tuition }}</li>
+                    <li>Out Of State Tuition: ${{ school.out_state_tuition }}</li>
+                    {% if school.roomboard_on_campus == 0 %}
+                        <li>Roomboard On Campus: None Offered</li>
+                    {% else %}
+                        <li>Roomboard On Campus: ${{ school.roomboard_on_campus }}</li>
+                    {% endif %}
+                    {% if school.roomboard_off_campus == 0 %}
+                        <li>Roomboard Off Campus: None Offered</li>
+                    {% else %}
+                        <li>Roomboard Off Campus: ${{ school.roomboard_off_campus }}</li>
+                    {% endif %}
+                    <li>Average Book Supply: ${{ school.book_supply }}</li>
+
+                    <h3>Financial Aid Info</h3>
+                    <li>Average Overall Net Price: ${{ school.average_overall_net_price }}</li>
+
+                    <h3>Admissions Information</h3>
+                    <li>Acceptance Rate: {{ school.acceptance_rate * 100}}%</li>
+                    <li>Average SAT Score: {{ school.avg_SAT_score }}</li>
+                    <li>Average ACT Score: {{ school.avg_ACT_score }}</li>
+
+                    <h3>Demographics Info</h3>
+                    <li>Male: {{ school.percent_male * 100}}%</li>
+                    <li>Female: {{ school.percent_female * 100}}%</li>
+                    <li>Native American: {{ school.percent_native_american * 100}}%</li>
+                    <li>Native Hawaiian Pacific Islander: {{ school.percent_native_hawaiian_pacific_islander * 100}}%</li>
+                    <li>Asian: {{ school.percent_asian * 100}}%</li>
+                    <li>Black: {{ school.percent_black * 100}}%</li>
+                    <li>White: {{ school.percent_white * 100}}%</li>
+                    <li>Hispanic: {{ school.percent_hispanic * 100}}%</li>
+                    <li>Unknown Ethnicities: {{ school.percent_ethnicity_unknown * 100}}%</li>
+
+                    <h3>Most Popular Degrees Offered</h3>
+                    <li>1: {{ school.first_degree_offered }}</li>
+                    <li>2: {{ school.second_degree_offered }}</li>
+                    <li>3: {{ school.third_degree_offered }}</li>
+                    <li>4: {{ school.fourth_degree_offered }}</li>
+                    <li>5: {{ school.fifth_degree_offered }}</li>
+
+                    <h3>External Links</h3>
+                    <li>{{school.school_name}}'s Website URL: {{ school.school_website_url }}</li>
+                    <li>{{school.school_name}}'s Price Calculator: {{ school.price_calculator_website }}</li>
+                </ul>
+            {% endfor %}
+        {% else %}
+            <h2>Unfortunately we weren't able to find results!</h2>
+            <h4>Tip: Check that the school name was input correctly.</h4>
+            <h4>Tip: Try being more specific with the degree name.</h4>
+        {% endif %}
+    </body>
+{% else %}
+    <h1>You are not authorized to access this!</h1>
+{% endif %}

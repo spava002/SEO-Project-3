@@ -96,6 +96,7 @@ def userLogin():
         if user and user.password == password:
             logging.info("User has successfully logged in!")
             session['user'] = username
+            session['logged_in'] = True
             return redirect(url_for("renderHome"))
         else:
             flash("Invalid username or password!", "error")
@@ -119,6 +120,7 @@ def userSignUp():
             db.session.commit()
             logging.info(f"User data was added successfully!")
             session['user'] = username
+            session['logged_in'] = True
             return redirect(url_for("renderHome"))
     return render_template("login.html", loginForm=login(), signUpForm=signUpForm)
 
@@ -127,6 +129,9 @@ def userSignUp():
 @app.route("/home", methods=['POST', 'GET'])
 def renderHome():
     user = session.get('user')
+    logged_in = session.get('logged_in')
+    print(f"User is {user}")
+    print(f"User is {logged_in}")
     filteredForm = SchoolForm()
     unfilteredForm = SchoolNameForm()
     if filteredForm.validate_on_submit():
@@ -159,22 +164,25 @@ def renderHome():
         return render_template("searchResults.html", single_school_data=single_school_data)
         # return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!", single_school_data=single_school_data))
     
-    return render_template('home.html', user=user, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
+    return render_template('home.html', user=user, logged_in=logged_in, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
 
 
 # Route for search results 
 @app.route("/search-results", methods=['GET'])
 def renderSearchResults():
+    user = session.get('user')
+    logged_in = session.get('logged_in')
     data = request.args.get('data')
-    return render_template('searchResults.html', data=data)
+    return render_template('searchResults.html', user=user, logged_in=logged_in, data=data)
 
 
 # Route for a user history page (meant for testing purposes)
 @app.route("/history")
 def renderSearchHistory():
     user = session.get('user')
+    logged_in = session.get('logged_in')
     user_search_history = Schools.query.filter(Schools.user == user).all()
-    return render_template("history.html", user=user, user_search_history=user_search_history)
+    return render_template("history.html", user=user, logged_in=logged_in, user_search_history=user_search_history)
 
 
 # Route that allows deleting of user history
@@ -189,13 +197,23 @@ def delete_history(id):
     except Exception as e:
         logging.error(f"There was an error deleting that: {e}")
         return "There was an error deleting that!"
+    
+
+# Route that allows user to log out of their session
+@app.route("/logout")
+def logUserOut():
+    session.pop('user', None)
+    session.pop('logged-in', False)
+    return render_template("login.html", loginForm=login(), signUpForm=signUp())
 
 
 # Route for a database page (meant for testing purposes)
 @app.route("/db")
 def renderDb():
+    user = session.get('user')
+    logged_in = session.get('logged_in')
     all_school_data = Schools.query.all()
-    return render_template('db.html', all_school_data=all_school_data)
+    return render_template('db.html', user=user, logged_in=logged_in, all_school_data=all_school_data)
 
 
 # Route that allows deleting of database data (Meant for experimental use)

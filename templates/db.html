@@ -1,87 +1,90 @@
 <!-- Meant for experimental use -->
-
-<!DOCTYPE html>
-<head>
-    <title>Database</title>
-    <link rel = "stylesheet" type = "text/css" href = "../static/css/db.css">
-</head>
-<body>
-    <h1>Database</h1>
-    <table class = "data-table">
-        <tr>
-            <th>Id</th>
-            <th>User</th>
-            <th>Multiple Search</th>
-            <td>School Name</td>
-            <th>Location Info</th>
-            <th>Student Size</th>
-            <th>Is Undergraduate Only</th>
-            <th>In State Tuition</th>
-            <th>Out State Tuition</th>
-            <th>Roomboard On Campus</th>
-            <th>Roomboard Off Campus</th>
-            <th>Book Supply</th>
-            <th>Average Overall Net Price</th>
-            <th>Acceptance Rate</th>
-            <th>Avg SAT Score</th>
-            <th>Avg ACT Score</th>
-            <th>Percent Male</th>
-            <th>Percent Female</th>
-            <th>Percent Native American</th>
-            <th>Percent Native Hawaiian Pacific Islander</th>
-            <th>Percent Asian</th>
-            <th>Percent Black</th>
-            <th>Percent White</th>
-            <th>Percent Hispanic</th>
-            <th>Percent Ethnicity Unknown</th>
-            <th>First Degree Offered</th>
-            <th>Second Degree Offered</th>
-            <th>Third Degree Offered</th>
-            <th>Fourth Degree Offered</th>
-            <th>Fifth Degree Offered</th>
-            <th>School Website Url</th>
-            <th>Price Calculator Website</th>
-            <td>Delete</td>
-        </tr>
-        {% for data in all_school_data %}
-        <tr>
-            <td>{{ data.id }}</td>
-            <td>{{ data.user }}</td>
-            <td>{{ data.multiple_search }}</td>
-            <td>{{ data.school_name }}</td>
-            <td>{{ data.location_info }}</td>
-            <td>{{ data.student_size }}</td>
-            <td>{{ data.is_undergraduate_only }}</td>
-            <td>{{ data.in_state_tuition }}</td>
-            <td>{{ data.out_state_tuition }}</td>
-            <td>{{ data.roomboard_on_campus }}</td>
-            <td>{{ data.roomboard_off_campus }}</td>
-            <td>{{ data.book_supply }}</td>
-            <td>{{ data.average_overall_net_price }}</td>
-            <td>{{ data.acceptance_rate * 100}}</td>
-            <td>{{ data.avg_SAT_score }}</td>
-            <td>{{ data.avg_ACT_score }}</td>
-            <td>{{ data.percent_male * 100}}</td>
-            <td>{{ data.percent_female * 100}}</td>
-            <td>{{ data.percent_native_american * 100}}</td>
-            <td>{{ data.percent_native_hawaiian_pacific_islander * 100}}</td>
-            <td>{{ data.percent_asian * 100}}</td>
-            <td>{{ data.percent_black * 100}}</td>
-            <td>{{ data.percent_white * 100}}</td>
-            <td>{{ data.percent_hispanic * 100}}</td>
-            <td>{{ data.percent_ethnicity_unknown * 100}}</td>
-            <td>{{ data.first_degree_offered }}</td>
-            <td>{{ data.second_degree_offered }}</td>
-            <td>{{ data.third_degree_offered }}</td>
-            <td>{{ data.fourth_degree_offered }}</td>
-            <td>{{ data.fifth_degree_offered }}</td>
-            <td>{{ data.school_website_url }}</td>
-            <td>{{ data.price_calculator_website }}</td>
-            <td>
-                <a href = "/delete-school/{{ data.id }}">X</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</body>
+{% if user is defined and user == "Developer" and logged_in %}
+    <!DOCTYPE html>
+    <head>
+        <title>Database</title>
+        <link rel = "stylesheet" type = "text/css" href = "../static/css/db.css">
+    </head>
+    <body>
+        <h1>Database</h1>
+        <table class = "data-table">
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Multiple Search</th>
+                <td>School Name</td>
+                <th>Location Info</th>
+                <th>Student Size</th>
+                <th>Is Undergraduate Only</th>
+                <th>In State Tuition</th>
+                <th>Out State Tuition</th>
+                <th>Roomboard On Campus</th>
+                <th>Roomboard Off Campus</th>
+                <th>Book Supply</th>
+                <th>Average Overall Net Price</th>
+                <th>Acceptance Rate</th>
+                <th>Avg SAT Score</th>
+                <th>Avg ACT Score</th>
+                <th>Percent Male</th>
+                <th>Percent Female</th>
+                <th>Percent Native American</th>
+                <th>Percent Native Hawaiian Pacific Islander</th>
+                <th>Percent Asian</th>
+                <th>Percent Black</th>
+                <th>Percent White</th>
+                <th>Percent Hispanic</th>
+                <th>Percent Ethnicity Unknown</th>
+                <th>First Degree Offered</th>
+                <th>Second Degree Offered</th>
+                <th>Third Degree Offered</th>
+                <th>Fourth Degree Offered</th>
+                <th>Fifth Degree Offered</th>
+                <th>School Website Url</th>
+                <th>Price Calculator Website</th>
+                <td>Delete</td>
+            </tr>
+            {% for data in all_school_data %}
+            <tr>
+                <td>{{ data.id }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.multiple_search }}</td>
+                <td>{{ data.school_name }}</td>
+                <td>{{ data.location_info }}</td>
+                <td>{{ data.student_size }}</td>
+                <td>{{ data.is_undergraduate_only }}</td>
+                <td>{{ data.in_state_tuition }}</td>
+                <td>{{ data.out_state_tuition }}</td>
+                <td>{{ data.roomboard_on_campus }}</td>
+                <td>{{ data.roomboard_off_campus }}</td>
+                <td>{{ data.book_supply }}</td>
+                <td>{{ data.average_overall_net_price }}</td>
+                <td>{{ data.acceptance_rate * 100}}</td>
+                <td>{{ data.avg_SAT_score }}</td>
+                <td>{{ data.avg_ACT_score }}</td>
+                <td>{{ data.percent_male * 100}}</td>
+                <td>{{ data.percent_female * 100}}</td>
+                <td>{{ data.percent_native_american * 100}}</td>
+                <td>{{ data.percent_native_hawaiian_pacific_islander * 100}}</td>
+                <td>{{ data.percent_asian * 100}}</td>
+                <td>{{ data.percent_black * 100}}</td>
+                <td>{{ data.percent_white * 100}}</td>
+                <td>{{ data.percent_hispanic * 100}}</td>
+                <td>{{ data.percent_ethnicity_unknown * 100}}</td>
+                <td>{{ data.first_degree_offered }}</td>
+                <td>{{ data.second_degree_offered }}</td>
+                <td>{{ data.third_degree_offered }}</td>
+                <td>{{ data.fourth_degree_offered }}</td>
+                <td>{{ data.fifth_degree_offered }}</td>
+                <td>{{ data.school_website_url }}</td>
+                <td>{{ data.price_calculator_website }}</td>
+                <td>
+                    <a href = "/delete-school/{{ data.id }}">X</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+    </body>
+{% else %}
+    <h1>You are not authorized to access this!</h1>
+{% endif %}
