@@ -7,39 +7,41 @@
     <body>
         <h1>{{ user }}'s Search History</h1>
         <table class = "data-table">
-            <tr>
-                <th>Multiple Search</th>
-                <td>School Name</td>
-                <th>Location Info</th>
-                <th>Student Size</th>
-                <th>Is Undergraduate Only</th>
-                <th>In State Tuition</th>
-                <th>Out State Tuition</th>
-                <th>Roomboard On Campus</th>
-                <th>Roomboard Off Campus</th>
-                <th>Book Supply</th>
-                <th>Average Overall Net Price</th>
-                <th>Acceptance Rate</th>
-                <th>Avg SAT Score</th>
-                <th>Avg ACT Score</th>
-                <th>Percent Male</th>
-                <th>Percent Female</th>
-                <th>Percent Native American</th>
-                <th>Percent Native Hawaiian Pacific Islander</th>
-                <th>Percent Asian</th>
-                <th>Percent Black</th>
-                <th>Percent White</th>
-                <th>Percent Hispanic</th>
-                <th>Percent Ethnicity Unknown</th>
-                <th>First Degree Offered</th>
-                <th>Second Degree Offered</th>
-                <th>Third Degree Offered</th>
-                <th>Fourth Degree Offered</th>
-                <th>Fifth Degree Offered</th>
-                <th>School Website Url</th>
-                <th>Price Calculator Website</th>
-                <td>Delete</td>
-            </tr>
+            <div class="headers">
+                <tr>
+                    <th>Multiple Search</th>
+                    <th>School Name</th>
+                    <th>Location Info</th>
+                    <th>Student Size</th>
+                    <th>Is Undergraduate Only</th>
+                    <th>In State Tuition</th>
+                    <th>Out State Tuition</th>
+                    <th>Roomboard On Campus</th>
+                    <th>Roomboard Off Campus</th>
+                    <th>Book Supply</th>
+                    <th>Average Overall Net Price</th>
+                    <th>Acceptance Rate</th>
+                    <th>Avg SAT Score</th>
+                    <th>Avg ACT Score</th>
+                    <th>Percent Male</th>
+                    <th>Percent Female</th>
+                    <th>Percent Native American</th>
+                    <th>Percent Native Hawaiian Pacific Islander</th>
+                    <th>Percent Asian</th>
+                    <th>Percent Black</th>
+                    <th>Percent White</th>
+                    <th>Percent Hispanic</th>
+                    <th>Percent Ethnicity Unknown</th>
+                    <th>First Degree Offered</th>
+                    <th>Second Degree Offered</th>
+                    <th>Third Degree Offered</th>
+                    <th>Fourth Degree Offered</th>
+                    <th>Fifth Degree Offered</th>
+                    <th>School Website Url</th>
+                    <th>Price Calculator Website</th>
+                    <th>Delete</th>
+                </tr>
+            </div>
             {% for data in user_search_history %}
             <tr>
                 <td>{{ data.multiple_search }}</td>
