@@ -25,6 +25,6 @@ class signUp(FlaskForm):
     # Required parameters
     username = StringField('Username: ', validators=[DataRequired(), Length(min=3, max=50, message='Invalid username. Must be between 3-20 characters.')], render_kw={"autocomplete": "off"})
     password = PasswordField('Password: ', validators=[DataRequired(), Length(min=3, max=50), validatePassword])
-    confirm_password = PasswordField('Confiirm Password: ', validators=[DataRequired(), Length(min=3, max=50), confirmPassword])
+    confirm_password = PasswordField('Confirm Password: ', validators=[DataRequired(), Length(min=3, max=50), confirmPassword])
     # Submit data
     submit = SubmitField('Sign Up')
