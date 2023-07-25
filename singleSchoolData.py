@@ -5,7 +5,7 @@
 #              results to gather the necessary information about the school for posting.
 
 import requests
-
+import matplotlib.pyplot as plt
 
 class School:
     def __init__(self, response):
@@ -58,6 +58,49 @@ class School:
         # Links
         self.school_website_url = response['results'][0]['latest']['school']['school_url']
         self.price_calculator_website_url = response['results'][0]['latest']['school']['price_calculator_url']
+        
+  def plot_gender_demographics_pie_chart(self):
+        # Data for the pie chart
+        labels = ['Male', 'Female']
+        sizes = [self.percent_male, self.percent_female]
+        colors = ['dodgerblue', 'orange']
+        explode = (0.1, 0)  # Explode any slices if needed
+
+        # Plotting the pie chart
+        plt.figure(figsize = (8, 8))  # Adjust the figure size if needed
+        plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+        plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        # Plot Title
+        plt.title(f'Gender Makeup at {self.name}')
+
+        # Save the pie chart as a PNG file
+        plt.savefig('gender_demographics_pie_chart.png')
+    
+    def plot_racial_demographics_pie_chart(self):
+        # Data for the pie chart
+        if (self.percent_native_american +  self.percent_native_hawaiian_pacific_islander + self.percent_ethnicity_unknown) < 0.05:
+            labels = ['Other', 'Asian', 'Black', 'White', 'Hispanic']
+            sizes = [self.percent_native_american + self.percent_native_hawaiian_pacific_islander + self.percent_ethnicity_unknown, self.percent_asian, self.percent_black, self.percent_white, self.percent_hispanic]
+            colors = ['red', 'orange', 'yellow', 'green', 'dodgerblue']
+            explode = (0, 0, 0, 0, 0)  # Explode any slices if needed
+        elif self.percent_native_american + self.percent_native_hawaiian_pacific_islander < 0.05:
+            labels = ['Native American,\nNative Hawaiian/\nPacific Islander', 'Asian', 'Black', 'White', 'Hispanic', 'Ethnicity Unknown']
+            sizes = [self.percent_native_american + self.percent_native_hawaiian_pacific_islander, self.percent_asian, self.percent_black, self.percent_white, self.percent_hispanic, self.percent_ethnicity_unknown]
+            colors = ['red', 'orange', 'yellow', 'green', 'dodgerblue', 'purple']
+            explode = (0, 0, 0, 0, 0, 0)  # Explode any slices if needed
+
+        # Plotting the pie chart
+        plt.figure(figsize=(8, 8))  # Adjust the figure size if needed
+        plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+        plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        # Plot Title
+        plt.title(f'Racial Demographics at {self.name}', y= 1.025)
+        # plt.tight_layout()  # Ensures that the label is not cut off
+
+        # Save the pie chart as a PNG file
+        plt.savefig('racial_demographics_pie_chart.png')
 
 
 def getResponse(url):
