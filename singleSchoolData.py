@@ -59,7 +59,7 @@ class School:
         self.school_website_url = response['results'][0]['latest']['school']['school_url']
         self.price_calculator_website_url = response['results'][0]['latest']['school']['price_calculator_url']
         
-  def plot_gender_demographics_pie_chart(self):
+    def plot_gender_demographics_pie_chart(self):
         # Data for the pie chart
         labels = ['Male', 'Female']
         sizes = [self.percent_male, self.percent_female]
@@ -89,16 +89,16 @@ class School:
             sizes = [self.percent_native_american + self.percent_native_hawaiian_pacific_islander, self.percent_asian, self.percent_black, self.percent_white, self.percent_hispanic, self.percent_ethnicity_unknown]
             colors = ['red', 'orange', 'yellow', 'green', 'dodgerblue', 'purple']
             explode = (0, 0, 0, 0, 0, 0)  # Explode any slices if needed
-
+    
         # Plotting the pie chart
         plt.figure(figsize=(8, 8))  # Adjust the figure size if needed
         plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
         plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
+    
         # Plot Title
         plt.title(f'Racial Demographics at {self.name}', y= 1.025)
         # plt.tight_layout()  # Ensures that the label is not cut off
-
+    
         # Save the pie chart as a PNG file
         plt.savefig('racial_demographics_pie_chart.png')
 
