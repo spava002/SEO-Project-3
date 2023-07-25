@@ -19,7 +19,7 @@ body {
     width: 100%;
     padding: 10px 20px;
     background-color: black; /* Prettier blue background color */
-    color: white; /* Light text color */
+    color: /* Light text color */
     font-family: 'Victor Mono', monospace;
     display: flex; /* or inline-flex */
     justify-content: flex-start
