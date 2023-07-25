@@ -1,109 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>University App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/layout.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  </head>
-​
-​
-    <body>
-      <header>
-        <dev class="navColor">
-            <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-secondary">
-             <!-- this is the LOGO -->
-              <a
-                href="#"
-                class="navbar-brand mb-0 h1">
-                  <img src="{{url_for('static',filename='BostonCollege1.jpeg')}}" alt="UniSelect"
-                  width="120" height="120"/>
+<head>
+  <meta charset="utf-8">
+  <title>CollegeQuest - Your University App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="../static/layout.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+  <header>
+    <div class="navColor">
+      <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-secondary">
+        <!-- Logo and Branding -->
+        <a href="#" class="navbar-brand mb-0 h1">
+          <img src="{{url_for('static',filename='BostonCollege1.jpeg')}}" alt="UniSelect" width="120" height="120"/>
+        </a>
+
+        <!-- Toggle button for mobile -->
+        <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a href="{{ url_for('renderHome') }}" class="nav-link">
+                Dashboard
               </a>
-​
-            <!--this makes the the nav bar open if needed-->
-              <button 
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                class="navbar-toggler"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-​
-​
-            <!-- this makes navbar collapse if needed-->
-              <div 
-                class="collapse navbar-collapse" 
-                id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-itm active">
-                      <a href="{{ url_for('renderHome') }}" class="nav-link active">
-                        Home
-                      </a>
-                    </li>
-                    <li class="nav-itm active">
-                      <a href="{{ url_for('renderSearchHistory') }}" class="nav-link active">
-                        Search History
-                      </a>
-                    </li>
-                    {% if user == "Developer" %}
-                    <li class="nav-itm active">
-                      <a href="{{ url_for('renderDb') }}" class="nav-link active">
-                        Database
-                      </a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-itm active">
-                      <a href="{{ url_for('logUserOut') }}" class="nav-link active">
-                        Log Out
-                      </a>
-                    </li>
-                </ul>
-​
+            </li>
+            <li class="nav-item active">
+              <a href="{{ url_for('renderSearchHistory') }}" class="nav-link">
+                View Search History
+              </a>
+            </li>
+            {% if user == "Developer" %}
+            <li class="nav-item active">
+              <a href="{{ url_for('renderDb') }}" class="nav-link">
+                Database
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item active">
+              <a href="{{ url_for('logUserOut') }}" class="nav-link">
+                Log Out
+              </a>
+            </li>
+          </ul>
+
+          <!-- Search Bar -->
+          <form method="POST" action="/home" class="form-inline my-2 my-lg-0">
+            {{ unfilteredForm.hidden_tag() }}
+            <div class="input-group">
+              {{ unfilteredForm.school_name(class="form-control mr-sm-2", placeholder="Search for a school...") }}
+              <div class="input-group-append">
+                {{ unfilteredForm.submit(class="btn btn-outline-light my-2 my-sm-0", value="Search") }}
               </div>
-​
-​
-          
-          <div class="search-bar">
-            <!-- Form for collecting user input on the school name (unfiltered) search -->
-              <form method="POST" action="/home">
-                  {{ unfilteredForm.hidden_tag() }}
-                  <fieldset class="form-group">
-                  <div class="form-group">
-                      <!-- Receives the required input of 'degree' -->
-                      {{ unfilteredForm.school_name.label(class="form-control-label") }}
-                      {% if unfilteredForm.school_name.errors %}
-                      {{ unfilteredForm.school_name(class="form-control form-control-sm is-invalid") }}
-                      <div class="invalid-feedback">
-                          {% for error in unfilteredForm.school_name.errors %}
-                          <span>{{ error }}</span>
-                          {% endfor %}
-                      </div>
-                      {% else %}
-                      {{ unfilteredForm.school_name(class="form-control form-control-sm") }}
-                      {% endif %}
-                  </div>
-                  </fieldset>
-                  <div id="searchbutton" class="form-group">
-                  {{ unfilteredForm.submit(class="btn btn-outline-light") }}
-                  </div>
-              </form>
-          </div> 
-​
-            </nav>  
-        </dev>
-        </header>
-​
-      <!-- Optional JavaScript -->
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      {%block content%} {%endblock%}  <!-- Placeholder for the content of each page -->
-  </body>
-​
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  {% block content %} {% endblock %} <!-- Placeholder for the content of each page -->
+</body>
 </html>
