@@ -153,7 +153,7 @@ def renderHome():
             db.session.commit()
             logging.info(f"School data was added successfully!")
             firstFiveSchools.append(single_school_data)
-        return render_template('searchResults.html', firstFiveSchools=firstFiveSchools)
+        return render_template('searchResults.html', user=user, logged_in=logged_in, firstFiveSchools=firstFiveSchools)
     elif unfilteredForm.validate_on_submit():
         school_name = unfilteredForm.school_name.data
         singleSchoolData = singleSearch(school_name)
@@ -161,7 +161,7 @@ def renderHome():
         db.session.add(single_school_data)
         db.session.commit()
         logging.info(f"School data was added successfully!")
-        return render_template("searchResults.html", single_school_data=single_school_data)
+        return render_template("searchResults.html", user=user, logged_in=logged_in, single_school_data=single_school_data)
         # return redirect(url_for('renderSearchResults', data="The unfiltered form was submitted!", single_school_data=single_school_data))
     
     return render_template('home.html', user=user, logged_in=logged_in, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
@@ -176,7 +176,7 @@ def renderSearchResults():
     return render_template('searchResults.html', user=user, logged_in=logged_in, data=data)
 
 
-# Route for a user history page (meant for testing purposes)
+# Route for a user history page
 @app.route("/history")
 def renderSearchHistory():
     user = session.get('user')
