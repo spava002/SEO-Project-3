@@ -5,12 +5,13 @@
     <link rel = "stylesheet" type = "text/css" href = "../static/css/login.css">
 </head>
 <body>
+    <h1>College Quest</h1>
     <!-- Form for collecting login information -->
     <form method="POST" action="/">
         {{ loginForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">
-            <h1>Please Login to Continue</h1>
+            <h3>Please Login to Continue</h3>
             <!-- Receives the required input of 'username' -->
             {{ loginForm.username.label(class="form-control-label") }}
             {% if loginForm.username.errors %}
@@ -48,7 +49,7 @@
         {{ signUpForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">
-            <h1>New? Sign-up Below!</h1>
+            <h3>New? Sign-up Below!</h3>
             <!-- Receives the required input of 'username' -->
             {{ signUpForm.username.label(class="form-control-label") }}
             {% if signUpForm.username.errors %}
