@@ -9,13 +9,13 @@ from schoolMatches import multipleSearch
 import git
 import logging
 
-
+#this is a random comment
+#another comment
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'PS7T6txPuOaXKkNnvToX90e0J'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///schools.db'
 
 db = SQLAlchemy(app)
-
 
 class Schools(db.Model):
     # id, degree, and residency will always contain a value
