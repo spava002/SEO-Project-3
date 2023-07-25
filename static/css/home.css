@@ -18,9 +18,11 @@ body {
     left: 0;
     width: 100%;
     padding: 10px 20px;
-    background-color: #3498db; /* Prettier blue background color */
-    color: #fff; /* Light text color */
+    background-color: black; /* Prettier blue background color */
+    color: white; /* Light text color */
     font-family: 'Victor Mono', monospace;
+    display: flex; /* or inline-flex */
+    justify-content: flex-start
 }
 /* Style the main heading */
 h1 {
