@@ -2,14 +2,16 @@
 <html>
 <head>
     <title>Login/Sign-Up</title>
+    <link rel = "stylesheet" type = "text/css" href = "../static/css/login.css">
 </head>
 <body>
-    <h3>Please Login to Continue</h3>
+    <h1>College Quest</h1>
     <!-- Form for collecting login information -->
     <form method="POST" action="/">
         {{ loginForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">
+            <h3>Please Login to Continue</h3>
             <!-- Receives the required input of 'username' -->
             {{ loginForm.username.label(class="form-control-label") }}
             {% if loginForm.username.errors %}
@@ -42,12 +44,12 @@
         </div>
     </form>
 
-    <h3>New? Sign-up Below!</h3>
     <!-- Form for collecting sign up information -->
     <form method="POST" action="/signup">
         {{ signUpForm.hidden_tag() }}
         <fieldset class="form-group">
         <div class="form-group">
+            <h3>New? Sign-up Below!</h3>
             <!-- Receives the required input of 'username' -->
             {{ signUpForm.username.label(class="form-control-label") }}
             {% if signUpForm.username.errors %}
