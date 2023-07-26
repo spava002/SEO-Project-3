@@ -101,7 +101,7 @@ def userLogin():
             session['logged_in'] = True
             return redirect(url_for("renderHome"))
         else:
-            flash("Invalid username or password!", "error")
+            flash("Invalid username or password!", "loginError")
     return render_template("login.html", loginForm=loginForm, signUpForm=signUp())
 
 
@@ -114,8 +114,7 @@ def userSignUp():
         password = signUpForm.password.data
         user = Users.query.filter_by(username=username).first()
         if user:
-            print("User is already taken!")
-            flash("User is already taken, try again.", "error")
+            flash("User is already taken, try again.", "signUpError")
         else:
             user_data = Users(username=username, password=password)
             db.session.add(user_data)

@@ -13,12 +13,12 @@
         <div class="form-group">
             <h3>Please Login to Continue</h3>
             <!-- Displays error message if credentials are incorrect -->
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <h4 class="error-message">{{ message }}</h4>
-                    {% endfor %}
-                {% endif %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    {% if category == 'loginError' %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
             {% endwith %}
             <!-- Receives the required input of 'username' -->
             {{ loginForm.username.label(class="form-control-label") }}
@@ -58,6 +58,14 @@
         <fieldset class="form-group">
         <div class="form-group">
             <h3>New? Sign-up Below!</h3>
+            <!-- Displays error message if credentials are incorrect -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    {% if category == 'signUpError' %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
             <!-- Receives the required input of 'username' -->
             {{ signUpForm.username.label(class="form-control-label") }}
             {% if signUpForm.username.errors %}
