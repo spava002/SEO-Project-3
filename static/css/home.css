@@ -8,47 +8,9 @@ body {
    
 }
 
+
 .collegeimage{
     background-image: url('../BostonCollege1.jpeg');
-}
-
-.navbar {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px 20px;
-    background-color: black; /* Prettier blue background color */
-    color: blueviolet; /* Light text color */
-    font-family: 'Victor Mono', monospace;
-    /* display: flex; /* or inline-flex */
-    /* justify-content: flex-start */ 
-}
-
-.nav-link{
-    color: black;
-    font-weight: bold;
-    
-}
-
-.navbar-collapse{
-    display:flex;
-    justify-content: space-evenly;
-}
-
-#navbarspacing{
-    display:flex;
-    justify-content:center;
-    flex-direction: row-reverse;
-}
-
-.navbar-brand{
-    margin-right: 200px;
-}
-
-.navbar-nav:{
-    display:flex;
-    justify-content: center;
 }
 
 
@@ -58,6 +20,10 @@ h1 {
     font-weight: bold;
     color: black;
     padding-top: 20px;
+}
+
+.nav-link{
+    color: white;
 }
 
 /* Style the forms for collecting user input */
@@ -73,16 +39,12 @@ form {
 
 /* Style the form fields and labels */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .form-control-label {
     font-weight: bold;
     color: black;
-}
-
-.form-inline{
-    margin-left:400px;
 }
 
 .form-control {
