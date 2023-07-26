@@ -91,8 +91,6 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     '''This function takes in user filters and returns the top 5 college matches (sorted by the specified
        degree's popularity given most recent graduating class size) that meet all the filter criteria'''
     
-    # EDITED PORTION STARTS BELOW...
-    
     # Get majors in API that include user's keywords for the degree
     matching_majors_in_API = find_major_code(degree)
     # print(matching_majors_in_API)
@@ -104,8 +102,6 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     # print(number_codes_string)
 
     degree_codes = f'&programs.cip_4_digit.code={number_codes_string}'
-
-    # EDITED PORTION ENDS ABOVE...
 
     # If out-of-state, find schools and costs for out-of-state
     if residency_preference == 'outofstate':
