@@ -60,7 +60,6 @@ class School:
         self.price_calculator_website_url = response['results'][0]['latest']['school']['price_calculator_url']
         
     def plot_gender_demographics_pie_chart(self, schoolNum):
-        print(schoolNum)
         # Data for the pie chart
         labels = ['Male', 'Female']
         sizes = [self.percent_male, self.percent_female]
@@ -79,7 +78,6 @@ class School:
         plt.savefig("static/images/gender_demographics_pie_chart" + str(schoolNum) + ".png")
     
     def plot_racial_demographics_pie_chart(self, schoolNum):
-        print(schoolNum)
         # Data for the pie chart
         if (self.percent_native_american +  self.percent_native_hawaiian_pacific_islander + self.percent_ethnicity_unknown) < 0.05:
             labels = ['Other', 'Asian', 'Black', 'White', 'Hispanic']

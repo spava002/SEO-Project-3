@@ -25,7 +25,8 @@
 
         <!-- Navigation Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto">
+
+          <ul class="navbar-nav mr-auto d-flex justify-content-center" id="navbarspacing">
             <li class="nav-item active">
               <a href="{{ url_for('renderHome') }}" class="nav-link">
                 Dashboard
@@ -49,6 +50,7 @@
               </a>
             </li>
           </ul>
+          </div>
 
           <!-- Search Bar -->
           <form method="POST" action="/home" class="form-inline my-2 my-lg-0">
