@@ -4,7 +4,6 @@
 #              and return the colleges that meet their specifications.
 
 import requests
-import json
 from title_code_dict import title_code_dict # To access "major name: major code number" dictionary
 
 us_states_and_territories = {
@@ -66,7 +65,6 @@ us_states_and_territories = {
     "u.s. virgin islands": "VI"
 }
 
-
 def get_api_response(url):
     '''This helper function accesses our API to return a JSON file with school information'''
     API_KEY = 'sHT6C7GtKya3ihqLt0Ji4NShHfwyIX8dGKbT6znD'
@@ -76,31 +74,29 @@ def get_api_response(url):
     response = requests.get(url, params=params).json()
     return response
 
-# def extract_upper_price(price_range_string):
-#     '''Function to extract the upper price range of tuition_preference and room_preference'''
-#     # Split the price string based on the "-" character
-#     parts = price_range_string.split('-')
-#     # Extract the upper price range (second part of the split)
-#     upper_price = parts[1]
-#     # Remove any whitespace and the dollar sign ('$') from the upper price range
-#     upper_price = upper_price.strip().replace('$', '')
-    
-#     return upper_price
 
 def multipleSearch(degree, degree_type, residency, residency_preference, school_type_preference, tuition_preference): # NOTE! ADDED A NEW PARAM -- "DEGREE TYPE". SEARCH FOR SCHOOLS WITH TOP MATCHES BY DEGREE TYPE (EX. Bachelor's Degree, Master's Degree, etc.)
     '''This function takes in user filters and returns the top 5 college matches (sorted by the specified
        degree's popularity given most recent graduating class size) that meet all the filter criteria'''
     
+    # If there is a degree type preference...
+    if degree_type:
+        degree_level = f'&programs.cip_4_digit.credential.title={degree_type}'
+
+    # No degree type preference...
+    else:
+        degree_level = ''
+    
     # Get majors in API that include user's keywords for the degree
     matching_majors_in_API = find_major_code(degree)
-    # print(matching_majors_in_API)
+   
     # Extract number codes from the list of tuples using a list comprehension
     number_codes = [code for _, code in matching_majors_in_API]
 
     # Join the number codes into a single string using the join() method
     number_codes_string = ','.join(number_codes)
-    # print(number_codes_string)
 
+    # Assign the degree code(s) into an API sendable format
     degree_codes = f'&programs.cip_4_digit.code={number_codes_string}'
 
     # If out-of-state, find schools and costs for out-of-state
@@ -127,13 +123,8 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     else:
         school_type = '' # no preference for school type, show both public and private schools
 
-    url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=school.name,latest.programs.cip_4_digit{degree_codes}{school_state}{tuition_price_range}{school_type}&per_page=100'
+    url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=school.name,latest.programs.cip_4_digit{degree_codes}{degree_level}{school_state}{tuition_price_range}{school_type}&per_page=100'
     response = get_api_response(url)
-
-    file_path = "responseDebug.json"
-    # Open the file in write mode and dump the JSON data into it
-    with open(file_path, "w") as file:
-        json.dump(response, file)
 
     top_matches = []
     start = 0
@@ -146,44 +137,31 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
         while (start < total_items):
             url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=school.name,latest.programs.cip_4_digit{degree_codes}{school_state}{tuition_price_range}{school_type}&page={i}&per_page=100'
             response = get_api_response(url)
+            # Every API Call, grab the top 5 schools from each page and extend them to the top_matches list
             top_matches.extend(fetch_most_popular_colleges_by_major(response, f'{degree}.'))
             start += items_per_page
             i += 1
-        
-        return get_top_colleges_by_major_popularity(top_matches, degree_type, 5)
+        # Once each page has been iterated through, consolidate top_matches into just the top 5 overall schools with most recent graduates in the specified degree
+        result = get_top_colleges_by_major_popularity(top_matches, degree_type, 5)
+
+    # If result list isn't empty, return it
+    if result:
+        return result
     
+    # If result list is empty, it means there were no matching schools.
     else:
-        return 'No Matching Degrees With That Name'
+        return 'No Matching Programs With Your Filters'
 
 
-# def find_major_code_ORIGINAL(user_input):
-#     # Convert user input to lowercase (or uppercase)
-#     user_input_lower = user_input.lower()
-    
-#     # List to store matching majors and their codes
-#     matching_majors = []
-
-#     # Loop through the keys (majors) in the dictionary
-#     for major in title_code_dict.keys():
-#         # Convert the current major to lowercase (or uppercase)
-#         major_lower = major.lower()
-        
-#         # Check if the user input is a substring of the current major (case-insensitive)
-#         if user_input_lower in major_lower:
-#             matching_majors.append((major, title_code_dict[major]))
-    
-#     return matching_majors
-
-
-# Function to find matching majors in API based on user's input
 def find_major_code(degree):
+    '''Helper function to find matching majors and their codes in API generated dictionary "title_code_dict" based on user's input'''
     # Split the user's input into individual words
     keywords = degree.lower().replace(',', '').split()
 
     # List to store matching majors
     matching_majors = []
 
-    # Iterate through the API data to find matching majors
+    # Loop through the keys in the dictionary
     for major, code in title_code_dict.items():
         # Convert the major name to lowercase for case-insensitive matching
         lower_major = major.lower()
@@ -236,21 +214,12 @@ def fetch_most_popular_colleges_by_major(response, target_major): # TODO: Maybe 
         for major_data in college_data['latest.programs.cip_4_digit']:
             major_name = major_data['title']
             degree_type = major_data['credential']['title']
-            # print()
-            # print(major_name)
-            # print(target_major)
-            # print()
-            # If the current major is equal to the target major, or similar
-            # if major_name.lower() == target_major.lower() or target_major[:-1].lower() in major_name.lower():
             college_name = major_data['school']['name']
             num_graduates_with_this_major = major_data['counts']['ipeds_awards2']
             if num_graduates_with_this_major is not None:
                 # Store the college and major name with number of graduates in a dictionary
                 colleges_by_major.append([college_name, major_name, degree_type, num_graduates_with_this_major])
     return colleges_by_major
-
-
-# print(f'find_major_code function output: {find_major_code("computational biology")}')
 
 
 # TESTING
@@ -268,17 +237,9 @@ def fetch_most_popular_colleges_by_major(response, target_major): # TODO: Maybe 
 
 
 
+# EXTRA POSSIBLE FILTERS FOR FUTURE ADDITIONS...
 
-
-
-
-
-# EXTRAS...
-
-# Defaulting to on-campus pricing for housing range (FIXME: NOT ABLE TO FILTER WITH THIS PARAM!!!
-# room_price_range =  f'&latest.cost.roomboard.oncampus__range=0..{room_upper_price}'
-
-# Possible Filter categories... If one sounds interesting, let me know and I'll get you more in-depth decriptions about each one!
+# Possible Filter categories...
 # 1) Test score requirements for admission
 # 2) Overall median of completion rate
 # 3) Overall median for average net price 
@@ -298,7 +259,3 @@ def fetch_most_popular_colleges_by_major(response, target_major): # TODO: Maybe 
 # 17) Locale of institution
 # 18) Region (IPEDS)                                                                         ---> example: 'Rocky Mountains (CO, ID, MT, UT, WY)' or 'New England (CT, ME, MA, NH, RI, VT)', etc.
 # 19) Highest degree awarded                                                                 ---> example: 'Non-degree-granting', 'Associate degree', 'Bachelor's degree', etc.
-
-# Categories above are possible future additions since filtering by room price wasn't a filter option with our API.
-
-# url = f'http://api.data.gov/ed/collegescorecard/v1/schools.json?_fields=school.name{degree_name}{school_state}{tuition_price_range}{school_type}&per_page=100'
