@@ -8,26 +8,21 @@ body {
    
 }
 
+
 .collegeimage{
     background-image: url('../BostonCollege1.jpeg');
 }
 
-.navbar {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px 20px;
-    background-color: black; /* Prettier blue background color */
-    color: /* Light text color */
-    font-family: 'Victor Mono', monospace;
-    display: flex; /* or inline-flex */
-    justify-content: flex-start
-}
+
 /* Style the main heading */
-h1 {
+.welcome-text{
     text-align: center;
-    color: #007bff;
+    color: black;
+    margin-top: 5px;
+}
+
+.nav-link{
+    color: white;
 }
 
 /* Style the forms for collecting user input */
@@ -47,7 +42,7 @@ form {
 
 .form-control-label {
     font-weight: bold;
-    color: #007bff;
+    color: black;
 }
 
 .form-control {
