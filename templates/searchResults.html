@@ -5,80 +5,116 @@
         <link rel = "stylesheet" type = "text/css" href = "../static/css/searchResults.css">
     </head>
     <body>
-        <div class="results">
-            <h1>Results</h1>
+        <ul class="results">
+            
+        <div class="title">
+            <center>
+            <h1>College Found:</h1>
             <!-- Results for when a single school search is made -->
             {% if single_school_data %}
-                <h2>{{ single_school_data.school_name }}</h2>
-                <ul>
-                    <h3>Location Information</h3>
-                    <li>Location: {{ single_school_data.location_info }}</li>
+            <h2>{{ single_school_data.school_name }}</h2></center>
+         </div>
 
-                    <h3>School Facts</h3>
-                    <li>Student Size: {{ single_school_data.student_size }}</li>
-                    <li>Is Undergraduate Only: {{ single_school_data.is_undergraduate_only }}</li>
+            <ul id="accordion">
+                <li>
+                    <label for="first">Location<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="first" checked>
+                    <div class="content">
+                        <p>Location: {{ single_school_data.location_info }}</p>
+                    </div>
+                </li>
+            
+                <li>
+                    <label for="second">School Facts<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="second">
+                    <div class="content">
+                        <p>Student Size: {{ single_school_data.student_size }}</p>
+                        <p>Is Undergraduate Only: {{ single_school_data.is_undergraduate_only }}</p>
+                    </div>
+                </li>
 
-                    <h3>Cost of Attendance Info</h3>
-                    <li>In State Tuition: ${{ single_school_data.in_state_tuition }}</li>
-                    <li>Out Of State Tuition: ${{ single_school_data.out_state_tuition }}</li>
-                    {% if single_school_data.roomboard_on_campus == 0 %}
-                    <li>Roomboard On Campus: None Offered</li>
-                    {% else %}
-                        <li>Roomboard On Campus: ${{ single_school_data.roomboard_on_campus }}</li>
-                    {% endif %}
-                    {% if single_school_data.roomboard_off_campus == 0 %}
-                        <li>Roomboard Off Campus: None Offered</li>
-                    {% else %}
-                        <li>Roomboard Off Campus: ${{ single_school_data.roomboard_off_campus }}</li>
-                    {% endif %}
-                    {% if single_school_data.book_supply == 0 %}
-                        <li>Average Book Supply: None Offered</li>
-                    {% else %}
-                        <li>Average Book Supply: ${{ single_school_data.book_supply }}</li>
-                    {% endif %}
+                <li>
+                    <label for="third">Cost of Attendance Info<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="third">
+                    <div class="content">
+                        <p>In State Tuition: ${{ single_school_data.in_state_tuition }}</p>
+                        <p>Out Of State Tuition: ${{ single_school_data.out_state_tuition }}</p>
+                        {% if single_school_data.roomboard_on_campus == 0 %}
+                        <p>Roomboard On Campus: None Offered</p>
+                        {% else %}
+                        <p>Roomboard On Campus: ${{ single_school_data.roomboard_on_campus }}</p>
+                        {% endif %}
+                        {% if single_school_data.roomboard_off_campus == 0 %}
+                        <p>Roomboard Off Campus: None Offered</p>
+                        {% else %}
+                        <p>Roomboard Off Campus: ${{ single_school_data.roomboard_off_campus }}</p>
+                        {% endif %}
+                        {% if single_school_data.book_supply == 0 %}
+                        <p>Average Book Supply: None Offered</p>
+                        {% else %}
+                        <p>Average Book Supply: ${{ single_school_data.book_supply }}</p>
+                        {% endif %}
+                    </div>
+                </li>
 
-                    <h3>Financial Aid Info</h3>
-                    <li>Average Overall Net Price: ${{ single_school_data.average_overall_net_price }}</li>
+                <li>
+                    <label for="forth">Financial Aid Info<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="forth">
+                    <div class="content">
+                        <p>Average Overall Net Price: ${{ single_school_data.average_overall_net_price }}</p>
+                    </div>
+                </li>
 
-                    <h3>Admissions Information</h3>
-                    {% if single_school_data.acceptance_rate == 0 %}
-                        <li>Acceptance Rate: None Found</li>
-                    {% else %}
-                        <li>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</li>
-                    {% endif %}
-                    {% if single_school_data.avg_SAT_score == 0 %}
-                        <li>Average SAT Score: None Found</li>
-                    {% else %}
-                        <li>Average SAT Score: {{ single_school_data.avg_SAT_score }}</li>
-                    {% endif %}
-                    {% if single_school_data.avg_ACT_score == 0 %}
-                        <li>Average ACT Score: None Found</li>
-                    {% else %}
-                        <li>Average ACT Score: {{ single_school_data.avg_ACT_score }}</li>
-                    {% endif %}
+                <li>
+                    <label for="fifth">Admissions Information<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="fifth">
+                    <div class="content">
+                        {% if single_school_data.acceptance_rate == 0 %}
+                        <p>Acceptance Rate: None Found</p>
+                        {% else %}
+                        <p>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</p>
+                        {% endif %}
+                        {% if single_school_data.avg_SAT_score == 0 %}
+                        <p>Average SAT Score: None Found</p>
+                        {% else %}
+                        <p>Average SAT Score: {{ single_school_data.avg_SAT_score }}</p>
+                        {% endif %}
+                        {% if single_school_data.avg_ACT_score == 0 %}
+                        <p>Average ACT Score: None Found</p>
+                        {% else %}
+                        <p>Average ACT Score: {{ single_school_data.avg_ACT_score }}</p>
+                        {% endif %}
+                    </div>
+                </li>
+                
 
-                    <h3>Demographics Info</h3>
-                    <li>Male: {{ "{:.2f}".format(single_school_data.percent_male * 100) }}%</li>
-                    <li>Female: {{ "{:.2f}".format(single_school_data.percent_female * 100) }}%</li>
-                    <li>Native American: {{ "{:.2f}".format(single_school_data.percent_native_american * 100) }}%</li>
-                    <li>Native Hawaiian Pacific Islander: {{ "{:.2f}".format(single_school_data.percent_native_hawaiian_pacific_islander * 100) }}%</li>
-                    <li>Asian: {{ "{:.2f}".format(single_school_data.percent_asian * 100) }}%</li>
-                    <li>Black: {{ "{:.2f}".format(single_school_data.percent_black * 100) }}%</li>
-                    <li>White: {{ "{:.2f}".format(single_school_data.percent_white * 100) }}%</li>
-                    <li>Hispanic: {{ "{:.2f}".format(single_school_data.percent_hispanic * 100) }}%</li>
-                    <li>Unknown Ethnicities: {{ "{:.2f}".format(single_school_data.percent_ethnicity_unknown * 100) }}%</li>
+                
+                <li>
+                    <label for="sixth">Demographic Info<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="sixth">
+                    <div class="content">
+                        <p>Male: {{ "{:.2f}".format(single_school_data.percent_male * 100) }}%</p>
+                        <p>Female: {{ "{:.2f}".format(single_school_data.percent_female * 100) }}%</p>
+                        <p>Native American: {{ "{:.2f}".format(single_school_data.percent_native_american * 100) }}%</p>
+                        <p>Native Hawaiian Pacific Islander: {{ "{:.2f}".format(single_school_data.percent_native_hawaiian_pacific_islander * 100) }}%</p>
+                        <p>Asian: {{ "{:.2f}".format(single_school_data.percent_asian * 100) }}%</p>
+                        <p>Black: {{ "{:.2f}".format(single_school_data.percent_black * 100) }}%</p>
+                        <p>White: {{ "{:.2f}".format(single_school_data.percent_white * 100) }}%</p>
+                        <p>Hispanic: {{ "{:.2f}".format(single_school_data.percent_hispanic * 100) }}%</p>
+                        <p>Unknown Ethnicities: {{ "{:.2f}".format(single_school_data.percent_ethnicity_unknown * 100) }}%</p>
+                    </div>
+                </li>
 
-                    <h3>Most Popular Degrees Offered</h3>
-                    <li>1: {{ single_school_data.first_degree_offered }}</li>
-                    <li>2: {{ single_school_data.second_degree_offered }}</li>
-                    <li>3: {{ single_school_data.third_degree_offered }}</li>
-                    <li>4: {{ single_school_data.fourth_degree_offered }}</li>
-                    <li>5: {{ single_school_data.fifth_degree_offered }}</li>
+                <li>
+                    <label for="seventh">External Links<span>&#x3e</span></label>
+                    <input type="radio" name="accordion" id="seventh">
+                    <div class="content">
+                        <p>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</p>
+                        <p>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</p>
+                    </div>
+                </li>
+            </ul>
 
-                    <h3>External Links</h3>
-                    <li>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</li>
-                    <li>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</li>
-                </ul>
             <!-- Results for when a filtered search is made (Top 5 school data display IF AVAILABLE) -->
             {% elif firstFiveSchools %}
                 {% for school in firstFiveSchools %}
@@ -154,6 +190,10 @@
                         <li>{{school.school_name}}'s Price Calculator: {{ school.price_calculator_website }}</li>
                     </ul>
                 {% endfor %}
+
+
+
+
             {% else %}
                 <h2>Unfortunately we weren't able to find results!</h2>
                 <h4>Tip: Check that the school name was input correctly.</h4>
@@ -161,6 +201,7 @@
             {% endif %}
         </div>
         <script src = "../static/js/randomImage.js"></script>
+        <script src="../static/js/searchResults.js"></script> <!-- Link to your JavaScript file -->
     </body>
 {% else %}
     <h1>You are not authorized to access this!</h1>

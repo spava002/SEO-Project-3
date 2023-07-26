@@ -12,7 +12,7 @@
 <body>
     {% if user is defined and user is not none and logged_in %}
     <div class = 'collegeimage'>
-        <h1 class="welcome-text">Welcome {{ user }}!</h1>
+        <h1>Welcome {{ user }}!</h1>
 
         <!-- Form for collecting user inputs on the filtered search -->
         <form method="POST" action="/home">
