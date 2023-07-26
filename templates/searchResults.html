@@ -1,4 +1,10 @@
 {% if user is defined and user is not none and logged_in %}
+    {% extends 'layout.html' %}
+{% endif %}
+
+{% block content %}
+
+{% if user is defined and user is not none and logged_in %}
    <!DOCTYPE html>
     <head>
         <title>Search Results</title>
@@ -9,7 +15,7 @@
             
         <div class="title">
             <center>
-            <h1>College Found:</h1>
+            <h1>College(s) Found:</h1>
             <!-- Results for when a single school search is made -->
             {% if single_school_data %}
             <h2>{{ single_school_data.school_name }}</h2></center>
@@ -116,8 +122,8 @@
                     <label for="eigth">Charts<span>&#x3e</span></label>
                     <input type="radio" name="accordion" id="eigth">
                     <div class="content">
-                        <img src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
-                        <img src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
+                        <img class="charts" src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
+                        <img class="charts" src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
                     </div>
                 </li>
             </ul>
@@ -202,20 +208,20 @@
 
                         <h3>Charts</h3>
                         {% if loop.index == 1 %}
-                            <img src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
-                            <img src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
+                            <img class="charts" src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
+                            <img class="charts" src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
                         {% elif loop.index == 2 %}
-                            <img src = "../static/images/gender_demographics_pie_chart2.png" alt = "Gender Demographics Chart">
-                            <img src = "../static/images/racial_demographics_pie_chart2.png" alt = "Racial Demographics Chart">
+                            <img class="charts" src = "../static/images/gender_demographics_pie_chart2.png" alt = "Gender Demographics Chart">
+                            <img class="charts" src = "../static/images/racial_demographics_pie_chart2.png" alt = "Racial Demographics Chart">
                         {% elif loop.index == 3 %}
-                            <img src = "../static/images/gender_demographics_pie_chart3.png" alt = "Gender Demographics Chart">
-                            <img src = "../static/images/racial_demographics_pie_chart3.png" alt = "Racial Demographics Chart">
+                            <img class="charts" src = "../static/images/gender_demographics_pie_chart3.png" alt = "Gender Demographics Chart">
+                            <img class="charts" src = "../static/images/racial_demographics_pie_chart3.png" alt = "Racial Demographics Chart">
                         {% elif loop.index == 4 %}
-                            <img src = "../static/images/gender_demographics_pie_chart4.png" alt = "Gender Demographics Chart">
-                            <img src = "../static/images/racial_demographics_pie_chart4.png" alt = "Racial Demographics Chart">
+                            <img class="charts" src = "../static/images/gender_demographics_pie_chart4.png" alt = "Gender Demographics Chart">
+                            <img class="charts" src = "../static/images/racial_demographics_pie_chart4.png" alt = "Racial Demographics Chart">
                         {% elif loop.index == 5 %}
-                            <img src = "../static/images/gender_demographics_pie_chart5.png" alt = "Gender Demographics Chart">
-                            <img src = "../static/images/racial_demographics_pie_chart5.png" alt = "Racial Demographics Chart">
+                            <img class="charts" src = "../static/images/gender_demographics_pie_chart5.png" alt = "Gender Demographics Chart">
+                            <img class="charts" src = "../static/images/racial_demographics_pie_chart5.png" alt = "Racial Demographics Chart">
                         {% endif %}
                     </ul>
                 {% endfor %}
@@ -235,3 +241,4 @@
 {% else %}
     <h1>You are not authorized to access this!</h1>
 {% endif %}
+{% endblock content %}

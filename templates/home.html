@@ -19,6 +19,7 @@
             {{ filteredForm.hidden_tag() }}
             <fieldset class="form-group">
             <div class="form-group">
+                <!-- Displayed flashed error message when no results are found -->
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <ul>
@@ -28,7 +29,7 @@
                         </ul>
                     {% endif %}
                 {% endwith %}
-                <!-- Receives the required input of 'degree' -->
+                <!-- Receives the input of 'degree' -->
                 {{ filteredForm.degree.label(class="form-control-label") }}
                 {% if filteredForm.degree.errors %}
                 {{ filteredForm.degree(class="form-control form-control-lg is-invalid") }}
@@ -41,23 +42,32 @@
                 {{ filteredForm.degree(class="form-control form-control-lg") }}
                 {% endif %}
 
-                <!-- Receives the optional input of 'degree_type' -->
+                <!-- Receives the input of 'degree_type' -->
                 {{ filteredForm.degree_type.label(class="form-control-label") }}
                 {{ filteredForm.degree_type(class="form-control form-control-lg") }}
                 
-                <!-- Receives the required input of 'residency' -->
+                <!-- Receives the input of 'residency' -->
                 {{ filteredForm.residency.label(class="form-control-label") }}
+                {% if filteredForm.residency.errors %}
+                {{ filteredForm.residency(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in filteredForm.residency.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
                 {{ filteredForm.residency(class="form-control form-control-lg") }}
+                {% endif %}
 
                 <!-- Receives the required input of 'residency_preference' -->
                 {{ filteredForm.residency_preference.label(class="form-control-label") }}
                 {{ filteredForm.residency_preference(class="form-control form-control-lg") }}
 
-                <!-- Receives the optional input of 'school_type' -->
+                <!-- Receives the input of 'school_type' -->
                 {{ filteredForm.school_type.label(class="form-control-label") }}
                 {{ filteredForm.school_type(class="form-control form-control-lg") }}
 
-                <!-- Receives the optional input of 'tuition_preference' -->
+                <!-- Receives the input of 'tuition_preference' -->
                 {{ filteredForm.tuition_preference.label(class="form-control-label") }}
                 {{ filteredForm.tuition_preference(class="form-control form-control-lg") }}
             </div>

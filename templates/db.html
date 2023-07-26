@@ -1,4 +1,9 @@
-<!-- Meant for experimental use -->
+{% if user is defined and user is not none and logged_in %}
+    {% extends 'layout.html' %}
+{% endif %}
+
+{% block content %}
+
 {% if user is defined and user == "Developer" and logged_in %}
     <!DOCTYPE html>
     <head>
@@ -88,3 +93,4 @@
 {% else %}
     <h1>You are not authorized to access this!</h1>
 {% endif %}
+{% endblock content %}

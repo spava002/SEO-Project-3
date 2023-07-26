@@ -12,6 +12,14 @@
         <fieldset class="form-group">
         <div class="form-group">
             <h3>Please Login to Continue</h3>
+            <!-- Displays error message if credentials are incorrect -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <h4 class="error-message">{{ message }}</h4>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <!-- Receives the required input of 'username' -->
             {{ loginForm.username.label(class="form-control-label") }}
             {% if loginForm.username.errors %}

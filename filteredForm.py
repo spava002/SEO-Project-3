@@ -10,7 +10,7 @@ Data should be:
 '''
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Optional, Length, AnyOf
+from wtforms.validators import DataRequired, Optional, Length, AnyOf, ValidationError
 from us_states_territories import us_states_territories
 
 
@@ -18,7 +18,11 @@ from us_states_territories import us_states_territories
 class CaseInsensitiveAnyOf(AnyOf):
     def __call__(self, form, field):
         field.data = field.data.lower()
-        super().__call__(form, field)
+        if field.data not in self.values:
+            message = self.message
+            if message is None:
+                message = field.gettext("Invalid US state or territory.")
+            raise ValidationError(message)
     
 
 class SchoolForm(FlaskForm):

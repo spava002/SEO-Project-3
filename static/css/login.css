@@ -37,6 +37,10 @@ form {
 }
 
 /* Style the form fields and labels */
+.error-message {
+    color: red;
+}
+
 .form-group:not(:has(.btn)) {
     margin-bottom: 20px;
     background-color: white;

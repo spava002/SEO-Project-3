@@ -1,4 +1,10 @@
 {% if user is defined and user is not none and logged_in %}
+    {% extends 'layout.html' %}
+{% endif %}
+
+{% block content %}
+
+{% if user is defined and user is not none and logged_in %}
     <!DOCTYPE html>
     <head>
         <title>{{ user }}'s History</title>
@@ -81,7 +87,7 @@
             {% endfor %}
         </table>
     </body>
-    </body>
 {% else %}
     <h1>You are not authorized to access this!</h1>
 {% endif %}
+{% endblock content %}
