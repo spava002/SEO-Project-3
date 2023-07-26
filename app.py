@@ -142,6 +142,9 @@ def renderHome():
         school_type = filteredForm.school_type.data
         tuition_preference = filteredForm.tuition_preference.data
         school_matches = multipleSearch(degree, degree_type, residency, residency_preference, school_type, tuition_preference)
+        if school_matches == None:
+            flash("No matches were found with input data. Try again!", "error")
+            return render_template('home.html', user=user, logged_in=logged_in, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
         firstFiveSchools = []
         upper_search_limit = 5
         if len(school_matches) < 5:

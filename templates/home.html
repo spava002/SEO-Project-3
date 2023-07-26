@@ -19,6 +19,15 @@
             {{ filteredForm.hidden_tag() }}
             <fieldset class="form-group">
             <div class="form-group">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <!-- Receives the required input of 'degree' -->
                 {{ filteredForm.degree.label(class="form-control-label") }}
                 {% if filteredForm.degree.errors %}
