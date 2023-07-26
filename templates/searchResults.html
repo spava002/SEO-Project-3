@@ -72,7 +72,7 @@
                         {% if single_school_data.acceptance_rate == 0 %}
                         <p>Acceptance Rate: None Found</p>
                         {% else %}
-                        <p>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</p>
+                        <p>Acceptance Rate: {{ "{:.2f}".format(single_school_data.acceptance_rate * 100) }}%</p>
                         {% endif %}
                         {% if single_school_data.avg_SAT_score == 0 %}
                         <p>Average SAT Score: None Found</p>
@@ -86,9 +86,7 @@
                         {% endif %}
                     </div>
                 </li>
-                
 
-                
                 <li>
                     <label for="sixth">Demographic Info<span>&#x3e</span></label>
                     <input type="radio" name="accordion" id="sixth">
@@ -162,7 +160,7 @@
                         {% if school.acceptance_rate == 0 %}
                             <li>Acceptance Rate: None Found</li>
                         {% else %}
-                            <li>Acceptance Rate: {{ school.acceptance_rate * 100}}%</li>
+                            <li>Acceptance Rate: {{ "{:.2f}".format(school.acceptance_rate * 100) }}%</li>
                         {% endif %}
                         {% if school.avg_SAT_score == 0 %}
                             <li>Average SAT Score: None Found</li>
@@ -186,6 +184,10 @@
                         <li>Hispanic: {{ "{:.2f}".format(school.percent_hispanic * 100) }}%</li>
                         <li>Unknown Ethnicities: {{ "{:.2f}".format(school.percent_ethnicity_unknown * 100) }}%</li>
                         
+                        {% if school.degree_type != "None" %}
+                            <h3>Your Chosen Degree</h3>
+                            <li>{{ school.school_name }} offers {{ school.user_degree_offered }}</li>
+                        {% endif %}
 
                         <h3>Most Popular Degrees Offered</h3>
                         <li>1: {{ school.first_degree_offered }}</li>

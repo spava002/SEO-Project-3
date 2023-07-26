@@ -31,6 +31,10 @@
                 {% else %}
                 {{ filteredForm.degree(class="form-control form-control-lg") }}
                 {% endif %}
+
+                <!-- Receives the optional input of 'degree_type' -->
+                {{ filteredForm.degree_type.label(class="form-control-label") }}
+                {{ filteredForm.degree_type(class="form-control form-control-lg") }}
                 
                 <!-- Receives the required input of 'residency' -->
                 {{ filteredForm.residency.label(class="form-control-label") }}
@@ -47,10 +51,6 @@
                 <!-- Receives the optional input of 'tuition_preference' -->
                 {{ filteredForm.tuition_preference.label(class="form-control-label") }}
                 {{ filteredForm.tuition_preference(class="form-control form-control-lg") }}
-
-                <!-- Receives the optional input of 'average_cost_of_attendance' -->
-                {{ filteredForm.average_cost_of_attendance.label(class="form-control-label") }}
-                {{ filteredForm.average_cost_of_attendance(class="form-control form-control-lg") }}
             </div>
             </fieldset>
             <div class="form-group">
@@ -63,4 +63,4 @@
     </div>
 </body>
 </html>
-{% endblock %}\
+{% endblock %}
