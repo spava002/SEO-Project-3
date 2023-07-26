@@ -78,6 +78,10 @@
                     <h3>External Links</h3>
                     <li>{{single_school_data.school_name}}'s Website URL: {{ single_school_data.school_website_url }}</li>
                     <li>{{single_school_data.school_name}}'s Price Calculator: {{ single_school_data.price_calculator_website }}</li>
+
+                    <h3>Charts</h3>
+                    <img src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
+                    <img src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
                 </ul>
             <!-- Results for when a filtered search is made (Top 5 school data display IF AVAILABLE) -->
             {% elif firstFiveSchools %}
@@ -152,6 +156,24 @@
                         <h3>External Links</h3>
                         <li>{{school.school_name}}'s Website URL: {{ school.school_website_url }}</li>
                         <li>{{school.school_name}}'s Price Calculator: {{ school.price_calculator_website }}</li>
+
+                        <h3>Charts</h3>
+                        {% if loop.index == 1 %}
+                            <img src = "../static/images/gender_demographics_pie_chart1.png" alt = "Gender Demographics Chart">
+                            <img src = "../static/images/racial_demographics_pie_chart1.png" alt = "Racial Demographics Chart">
+                        {% elif loop.index == 2 %}
+                            <img src = "../static/images/gender_demographics_pie_chart2.png" alt = "Gender Demographics Chart">
+                            <img src = "../static/images/racial_demographics_pie_chart2.png" alt = "Racial Demographics Chart">
+                        {% elif loop.index == 3 %}
+                            <img src = "../static/images/gender_demographics_pie_chart3.png" alt = "Gender Demographics Chart">
+                            <img src = "../static/images/racial_demographics_pie_chart3.png" alt = "Racial Demographics Chart">
+                        {% elif loop.index == 4 %}
+                            <img src = "../static/images/gender_demographics_pie_chart4.png" alt = "Gender Demographics Chart">
+                            <img src = "../static/images/racial_demographics_pie_chart4.png" alt = "Racial Demographics Chart">
+                        {% elif loop.index == 5 %}
+                            <img src = "../static/images/gender_demographics_pie_chart5.png" alt = "Gender Demographics Chart">
+                            <img src = "../static/images/racial_demographics_pie_chart5.png" alt = "Racial Demographics Chart">
+                        {% endif %}
                     </ul>
                 {% endfor %}
             {% else %}

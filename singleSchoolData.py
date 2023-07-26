@@ -59,7 +59,8 @@ class School:
         self.school_website_url = response['results'][0]['latest']['school']['school_url']
         self.price_calculator_website_url = response['results'][0]['latest']['school']['price_calculator_url']
         
-    def plot_gender_demographics_pie_chart(self):
+    def plot_gender_demographics_pie_chart(self, schoolNum):
+        print(schoolNum)
         # Data for the pie chart
         labels = ['Male', 'Female']
         sizes = [self.percent_male, self.percent_female]
@@ -75,9 +76,10 @@ class School:
         plt.title(f'Gender Makeup at {self.name}')
 
         # Save the pie chart as a PNG file
-        plt.savefig('gender_demographics_pie_chart.png')
+        plt.savefig("static/images/gender_demographics_pie_chart" + str(schoolNum) + ".png")
     
-    def plot_racial_demographics_pie_chart(self):
+    def plot_racial_demographics_pie_chart(self, schoolNum):
+        print(schoolNum)
         # Data for the pie chart
         if (self.percent_native_american +  self.percent_native_hawaiian_pacific_islander + self.percent_ethnicity_unknown) < 0.05:
             labels = ['Other', 'Asian', 'Black', 'White', 'Hispanic']
@@ -100,7 +102,7 @@ class School:
         # plt.tight_layout()  # Ensures that the label is not cut off
     
         # Save the pie chart as a PNG file
-        plt.savefig('racial_demographics_pie_chart.png')
+        plt.savefig("static/images/racial_demographics_pie_chart" + str(schoolNum) + ".png")
 
 
 def getResponse(url):
@@ -113,13 +115,13 @@ def getResponse(url):
     return response
 
 
-def singleSearch(school_name):
+def singleSearch(school_name, schoolNum=1):
     # Specify school...
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + school_name
     response = getResponse(url)
     mySchool = School(response)
 
-    return generateSchoolData(mySchool)
+    return generateSchoolData(mySchool, schoolNum)
 
 
 def fetch_most_popular_majors(response):
@@ -145,7 +147,7 @@ def fetch_most_popular_majors(response):
     return top_5_majors
 
 
-def generateSchoolData(mySchool):
+def generateSchoolData(mySchool, schoolNum):
     '''This helper function prints out all variable values in our School object to help debug/view for correct output'''
     singleSchoolData = {}
     # print('-----> Location Info <-----')
@@ -249,5 +251,7 @@ def generateSchoolData(mySchool):
 
     externalLinks = [mySchool.school_website_url, mySchool.price_calculator_website_url]
     singleSchoolData.update({"externalLinks": externalLinks})
+    mySchool.plot_gender_demographics_pie_chart(schoolNum)
+    mySchool.plot_racial_demographics_pie_chart(schoolNum)
 
     return singleSchoolData
