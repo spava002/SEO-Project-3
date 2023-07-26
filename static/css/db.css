@@ -1,19 +1,114 @@
 body {
-    background-color: white;
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
     font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
     color: #007bff;
+    text-align: center;
 }
 
 .data-table {
-    border: 5px solid #007bff;
-    border-spacing: 15px;
-    background-color: white;
-    margin: 0% auto;
+    border: 2px solid black;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
 }
 
-th {
+.data-table th {
+    background-color: blue;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.data-table td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: whit;
+}
+
+.data-table tr:hover {
+    background-color: #ddd;
+}
+
+/* Links */
+a {
+    color: yellow;
+    text-decoration: ;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Container for each school data section */
+ul.results {
+    list-style: none;
+    padding: 0;
+    margin: 20px;
+}
+
+/* Accordion styles */
+ul#accordion {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul#accordion li {
+    margin-bottom: 15px;
+}
+
+ul#accordion label {
+    display: block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+ul#accordion input[type="radio"] {
+    display: none;
+}
+
+ul#accordion .content {
+    display: none;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+ul#accordion input[type="radio"]:checked + .content {
+    display: block;
+}
+
+/* Center the college found text */
+.title {
+    text-align: center;
+}
+
+/* Style for images */
+.results img {
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+}
+
+/* Tips section */
+h2 {
     color: #007bff;
+}
+
+h4 {
+    color: #777;
 }
