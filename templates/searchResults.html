@@ -44,7 +44,7 @@
                     {% if single_school_data.acceptance_rate == 0 %}
                         <li>Acceptance Rate: None Found</li>
                     {% else %}
-                        <li>Acceptance Rate: {{ single_school_data.acceptance_rate * 100}}%</li>
+                        <li>Acceptance Rate: {{ "{:.2f}".format(single_school_data.acceptance_rate * 100)}}%</li>
                     {% endif %}
                     {% if single_school_data.avg_SAT_score == 0 %}
                         <li>Average SAT Score: None Found</li>
@@ -121,7 +121,7 @@
                         {% if school.acceptance_rate == 0 %}
                             <li>Acceptance Rate: None Found</li>
                         {% else %}
-                            <li>Acceptance Rate: {{ school.acceptance_rate * 100}}%</li>
+                            <li>Acceptance Rate: {{ "{:.2f}".format(school.acceptance_rate * 100)}}%</li>
                         {% endif %}
                         {% if school.avg_SAT_score == 0 %}
                             <li>Average SAT Score: None Found</li>
