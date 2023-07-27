@@ -52,6 +52,10 @@ form {
 }
 
 /* Style the form fields and labels */
+.error-message {
+    color: red;
+}
+
 .form-group {
     margin-bottom: 10px;
 }

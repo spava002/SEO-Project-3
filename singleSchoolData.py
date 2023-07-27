@@ -117,6 +117,8 @@ def singleSearch(school_name, schoolNum=1):
     # Specify school...
     url = 'http://api.data.gov/ed/collegescorecard/v1/schools.json?school.name=' + school_name
     response = getResponse(url)
+    if len(response['results']) == 0:
+        return None
     mySchool = School(response)
 
     return generateSchoolData(mySchool, schoolNum)

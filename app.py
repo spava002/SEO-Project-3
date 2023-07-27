@@ -143,7 +143,7 @@ def renderHome():
         tuition_preference = filteredForm.tuition_preference.data
         school_matches = multipleSearch(degree, degree_type, residency, residency_preference, school_type, tuition_preference)
         if school_matches == None:
-            flash("No matches were found with input data. Try again!", "error")
+            flash("No matches were found with input data. Try again!", "multiSearchError")
             return render_template('home.html', user=user, logged_in=logged_in, filteredForm=filteredForm, unfilteredForm=unfilteredForm)
         firstFiveSchools = []
         upper_search_limit = 5
@@ -161,6 +161,8 @@ def renderHome():
     elif unfilteredForm.validate_on_submit():
         school_name = unfilteredForm.school_name.data
         singleSchoolData = singleSearch(school_name)
+        if singleSchoolData == None:
+            return render_template('searchResults.html', user=user, logged_in=logged_in, unfilteredForm=unfilteredForm, error="No matches were found with input data. Try again!")
         single_school_data = Schools(user=user, degree_type="None", multiple_search=False, school_name=school_name, location_info=singleSchoolData["locationInfo"][0], student_size=singleSchoolData["schoolFacts"][0], is_undergraduate_only=singleSchoolData["schoolFacts"][1], in_state_tuition=singleSchoolData["costOfAttendanceInfo"][0], out_state_tuition=singleSchoolData["costOfAttendanceInfo"][1], roomboard_on_campus=singleSchoolData["costOfAttendanceInfo"][2], roomboard_off_campus=singleSchoolData["costOfAttendanceInfo"][3], book_supply=singleSchoolData["costOfAttendanceInfo"][4], average_overall_net_price=singleSchoolData["financialAidInfo"][0], acceptance_rate=singleSchoolData["admissionsInfo"][0], avg_SAT_score=singleSchoolData["admissionsInfo"][1], avg_ACT_score=singleSchoolData["admissionsInfo"][2], percent_male=singleSchoolData["demographicsInfo"][0], percent_female=singleSchoolData["demographicsInfo"][1], percent_native_american=singleSchoolData["demographicsInfo"][2], percent_native_hawaiian_pacific_islander=singleSchoolData["demographicsInfo"][3], percent_asian=singleSchoolData["demographicsInfo"][4], percent_black=singleSchoolData["demographicsInfo"][5], percent_white=singleSchoolData["demographicsInfo"][6], percent_hispanic=singleSchoolData["demographicsInfo"][7], percent_ethnicity_unknown=singleSchoolData["demographicsInfo"][8], user_degree_offered="None", first_degree_offered=singleSchoolData["topMajors"][0][1] + " in " + singleSchoolData["topMajors"][0][0] + " with " + str(singleSchoolData["topMajors"][0][2]) + " recent graduates.", second_degree_offered=singleSchoolData["topMajors"][1][1] + " in " + singleSchoolData["topMajors"][1][0] + " with " + str(singleSchoolData["topMajors"][1][2]) + " recent graduates.", third_degree_offered=singleSchoolData["topMajors"][2][1] + " in " + singleSchoolData["topMajors"][2][0] + " with " + str(singleSchoolData["topMajors"][2][2]) + " recent graduates.", fourth_degree_offered=singleSchoolData["topMajors"][3][1] + " in " + singleSchoolData["topMajors"][3][0] + " with " + str(singleSchoolData["topMajors"][3][2]) + " recent graduates.", fifth_degree_offered=singleSchoolData["topMajors"][4][1] + " in " + singleSchoolData["topMajors"][4][0] + " with " + str(singleSchoolData["topMajors"][4][2]) + " recent graduates.", school_website_url=singleSchoolData["externalLinks"][0], price_calculator_website=singleSchoolData["externalLinks"][1])
         db.session.add(single_school_data)
         db.session.commit()
