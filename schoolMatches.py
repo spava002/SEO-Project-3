@@ -80,7 +80,7 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
        degree's popularity given most recent graduating class size) that meet all the filter criteria'''
     
     # If there is a degree type preference...
-    if degree_type:
+    if not(degree_type == "None"):
         degree_level = f'&programs.cip_4_digit.credential.title={degree_type}'
 
     # No degree type preference...
@@ -102,7 +102,7 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     # If out-of-state, find schools and costs for out-of-state
     if residency_preference == 'outofstate':
         school_state = f'&school.state__not={us_states_and_territories[residency]}'
-        if tuition_preference:
+        if not(tuition_preference == "None"):
             tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
         else:
             tuition_price_range = ''
@@ -110,7 +110,7 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     # Elif preference is in-state, find schools and costs for in-state
     elif residency_preference == 'instate':
         school_state = f'&school.state={us_states_and_territories[residency]}'
-        if tuition_preference:
+        if not(tuition_preference == "None"):
             tuition_price_range = f'&latest.cost.tuition.in_state__range=0..{tuition_preference}'
         else:
             tuition_price_range = ''
@@ -119,7 +119,7 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     else:
         school_state = '' # no preference for states
         # Default to show out-of-state pricing for now!
-        if tuition_preference:
+        if not(tuition_preference == "None"):
             tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
         else:
             tuition_price_range = ''
