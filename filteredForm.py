@@ -28,11 +28,11 @@ class CaseInsensitiveAnyOf(AnyOf):
 class SchoolForm(FlaskForm):
     # Required parameters
     degree = StringField('Degree: ', validators=[DataRequired(), Length(min=3, max=50, message='Invalid degree. Must be between 3-50 characters.')], render_kw={"autocomplete": "off"})
-    degree_type = SelectField("Degree Type: ", validators=[Optional()], choices=[(None, "None"), ("Associate's Degree", "Associate's Degree"), ("Bachelor's Degree", "Bachelor's Degree"), ("Master's Degree", "Master's Degree"), ("Doctoral Degree", "Doctorate (Ph.D.) Degree")], render_kw={"autocomplete": "off"})
+    degree_type = SelectField("Degree Type: ", validators=[DataRequired()], choices=[(None, "None"), ("Associate's Degree", "Associate's Degree"), ("Bachelor's Degree", "Bachelor's Degree"), ("Master's Degree", "Master's Degree"), ("Doctoral Degree", "Doctorate (Ph.D.) Degree")], render_kw={"autocomplete": "off"})
     residency = StringField('Current State or Territory You Reside In: ', validators=[DataRequired(), CaseInsensitiveAnyOf(us_states_territories)], render_kw={"autocomplete": "off"})
-    residency_preference = SelectField('In-State or Out-Of-State: ', validators=[DataRequired()], choices=[("instate", "In-State"), ("outofstate", "Out-Of-State")], render_kw={"autocomplete": "off"})
+    residency_preference = SelectField('In-State or Out-Of-State: ', validators=[DataRequired()], choices=[(None, "None"), ("instate", "In-State"), ("outofstate", "Out-Of-State")], render_kw={"autocomplete": "off"})
     # Optional parameters
-    school_type = SelectField('Public or Private: ', validators=[Optional()], choices=[("public", "Public"), ("private", "Private")], render_kw={"autocomplete": "off"})
-    tuition_preference = SelectField('Tuition Preference: ', validators=[Optional()], choices=[(None, "None"), (1000, "$0-$1,000"), (5000, "$0-$5,000"), (10000, "$0-$10,000"), (20000, "$0-$20000"), (30000, "$0-$30,000"), (40000, "$0-$40,000")], render_kw={"autocomplete": "off"})
+    school_type = SelectField('Public or Private: ', validators=[DataRequired()], choices=[(None, "None"), ("public", "Public"), ("private", "Private")], render_kw={"autocomplete": "off"})
+    tuition_preference = SelectField('Tuition Preference: ', validators=[DataRequired()], choices=[(None, "None"), (1000, "$0-$1,000"), (5000, "$0-$5,000"), (10000, "$0-$10,000"), (20000, "$0-$20000"), (30000, "$0-$30,000"), (40000, "$0-$40,000")], render_kw={"autocomplete": "off"})
     # Submit data
     submit = SubmitField('Search')
