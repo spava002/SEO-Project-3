@@ -3,9 +3,23 @@
 <head>
     <title>Login/Sign-Up</title>
     <link rel = "stylesheet" type = "text/css" href = "../static/css/login.css">
+
+    <!--Goolge fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <h1>College Quest</h1>
+
+
+    <center>
+        <a href="#" class="logo">
+            <img src="{{url_for('static',filename='logo.png')}}" alt="CollegeQuest Logo" width="250" height="250"/>
+          </a>
+    </center>
+
+
     <!-- Form for collecting login information -->
     <form method="POST" action="/">
         {{ loginForm.hidden_tag() }}

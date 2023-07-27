@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Domine', serif;
     background-image: url(../loginBackground.jpg);
     color: #333;
     background-size: cover; 
@@ -22,7 +22,7 @@ h1 {
 
 h3 {
     text-align: center;
-    color: #007bff;
+    color: black;
 }
 
 /* Style the forms for collecting user input */
@@ -48,7 +48,7 @@ form {
 
 .form-control-label {
     font-weight: bold;
-    color: #007bff;
+    color: black;
 }
 
 .form-control {

@@ -1,16 +1,30 @@
+/* Styles for the sticky navbar */
+.navbar {
+    position: sticky;
+    top: 0; /* Stick the navbar to the top of the viewport */
+    z-index: 100; /* Add a z-index to make sure the navbar appears above other elements */
+}
+
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Domine', serif;
     background-color:white;
     color: #333;
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed;
+    margin: 0; /* Remove default margin to eliminate extra whitespace */
    
 }
 
 
 .collegeimage{
     background-image: url('../BostonCollege1.jpeg');
+    background-repeat: no-repeat;
+    position: center fixed;
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    padding: 50px; /* Add padding to give some space between the form and the background edges */
+    box-sizing: border-box; /* Include padding in the container's total width/height */
+    height: 100vh; /* Set the height to 100vh (viewport height) to take up the whole screen */
 }
 
 
