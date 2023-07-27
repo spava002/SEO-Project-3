@@ -102,18 +102,27 @@ def multipleSearch(degree, degree_type, residency, residency_preference, school_
     # If out-of-state, find schools and costs for out-of-state
     if residency_preference == 'outofstate':
         school_state = f'&school.state__not={us_states_and_territories[residency]}'
-        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
+        if tuition_preference:
+            tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
+        else:
+            tuition_price_range = ''
 
     # Elif preference is in-state, find schools and costs for in-state
     elif residency_preference == 'instate':
         school_state = f'&school.state={us_states_and_territories[residency]}'
-        tuition_price_range = f'&latest.cost.tuition.in_state__range=0..{tuition_preference}'
+        if tuition_preference:
+            tuition_price_range = f'&latest.cost.tuition.in_state__range=0..{tuition_preference}'
+        else:
+            tuition_price_range = ''
 
     # Else, return schools in all states. TODO: calculate costs accordingly (ie. depending on homestate, give in-state or out-of-state pricing)
     else:
         school_state = '' # no preference for states
         # Default to show out-of-state pricing for now!
-        tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
+        if tuition_preference:
+            tuition_price_range = f'&latest.cost.tuition.out_of_state__range=0..{tuition_preference}'
+        else:
+            tuition_price_range = ''
        
     # Logic for displaying either private or public schools depending on preference
     if school_type_preference == 'private':
