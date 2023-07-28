@@ -33,6 +33,6 @@ class SchoolForm(FlaskForm):
     residency_preference = SelectField('In-State or Out-Of-State: ', validators=[DataRequired()], choices=[(None, "None"), ("instate", "In-State"), ("outofstate", "Out-Of-State")], render_kw={"autocomplete": "off"})
     # Optional parameters
     school_type = SelectField('Public or Private: ', validators=[DataRequired()], choices=[(None, "None"), ("public", "Public"), ("private", "Private")], render_kw={"autocomplete": "off"})
-    tuition_preference = SelectField('Tuition Preference: ', validators=[DataRequired()], choices=[(None, "None"), (1000, "$0-$1,000"), (5000, "$0-$5,000"), (10000, "$0-$10,000"), (20000, "$0-$20000"), (30000, "$0-$30,000"), (40000, "$0-$40,000")], render_kw={"autocomplete": "off"})
+    tuition_preference = SelectField('Tuition Preference: ', validators=[DataRequired()], choices=[(None, "None"), (1000, "$0-$1,000"), (5000, "$0-$5,000"), (10000, "$0-$10,000"), (20000, "$0-$20000"), (30000, "$0-$30,000"), (40000, "$0-$40,000"), (50000, "$0-$50,000"), (60000, "$0-$60,000")], render_kw={"autocomplete": "off"})
     # Submit data
     submit = SubmitField('Search')
